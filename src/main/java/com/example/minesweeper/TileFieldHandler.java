@@ -1,21 +1,28 @@
 package com.example.minesweeper;
 
+import javafx.scene.input.MouseButton;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 
 public class TileFieldHandler {
-    private Tile[][] tileField;
+
+    private final EasyGameModel easyGameModel;
     private final int rows;
     private final int columns;
     private final int numberOfMines;
+    public int remainingTiles;
+    public int remainingMines;
+    private Tile[][] tileField;
 
-    private int remainingTiles;
-
-    public TileFieldHandler(int rows, int columns, int numberOfMines) {
+    public TileFieldHandler(int rows, int columns, int numberOfMines,
+                            EasyGameModel easyGameModel) {
+        this.easyGameModel = easyGameModel;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
+        remainingMines = numberOfMines;
         remainingTiles = rows * columns;
         initializeTileField();
     }
@@ -24,7 +31,19 @@ public class TileFieldHandler {
         tileField = new Tile[rows][columns];
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
-                tileField[rowIndex][columnIndex] = new Tile(rowIndex, columnIndex);
+                Tile currentTile = new Tile(rowIndex, columnIndex);
+                tileField[rowIndex][columnIndex] = currentTile;
+                currentTile.getImageView().setOnMouseClicked(mouseEvent -> {
+                    if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                        handleUserGuessOn(currentTile);
+                    }
+                    if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                        handleFlag(currentTile);
+                        easyGameModel.getEasyGameController()
+                                .getRemainingMinesText()
+                                .setText(String.valueOf(remainingMines));
+                    }
+                });
             }
         }
         generateMinesInTileField();
@@ -105,11 +124,12 @@ public class TileFieldHandler {
     private void doSingleGuess(Tile tile) {
         if (tile.isMine()) {
             exposeAllMines();
-        } else {
+            easyGameModel.setGameState(GameState.LOST);
+        } else if (tile.isNotExposed()) {
             exposeTile(tile);
             remainingTiles--;
-            if(remainingTiles == numberOfMines) {
-                System.out.println("Victory!");
+            if (remainingTiles == numberOfMines) {
+                easyGameModel.setGameState(GameState.WON);
             }
             if (tile.isNoMineAround()) {
                 for (Tile currentTile : getAdjacentTilesOf(tile)) {
@@ -138,11 +158,17 @@ public class TileFieldHandler {
             for (Tile currentTile : getAdjacentTilesOf(tile)) {
                 currentTile.decreaseNeighbourFlagsCount();
             }
+            remainingMines++;
         } else if (tile.getTileState() == TileState.BLANK) {
             tile.setTileState(TileState.FLAG);
             for (Tile currentTile : getAdjacentTilesOf(tile)) {
                 currentTile.increaseNeighbourFlagsCount();
             }
+            remainingMines--;
         }
+    }
+
+    public int getRemainingMines() {
+        return remainingMines;
     }
 }

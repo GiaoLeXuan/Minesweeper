@@ -17,14 +17,12 @@ public enum TileState {
 
     private final String fileName;
 
-    private static final String pathToImages = "images/";
-
     TileState(String fileName) {
         this.fileName = fileName;
     }
 
     public String getImagePath() {
-        return String.valueOf(MinesweeperApplication.class.getResource(pathToImages + fileName));
+        return ImageHandler.getImagePath(fileName);
     }
 
     public static final TileState[] tileStates = TileState.values();

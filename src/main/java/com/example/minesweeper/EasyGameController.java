@@ -1,33 +1,45 @@
 package com.example.minesweeper;
 
 import javafx.fxml.FXML;
-import javafx.scene.input.MouseButton;
+import javafx.scene.control.Button;
 import javafx.scene.layout.TilePane;
+import javafx.scene.text.Text;
 
 public class EasyGameController {
+
+    private final EasyGameModel easyGameModel = new EasyGameModel(this);
 
     @FXML
     private TilePane tilePane;
 
     @FXML
-    public void initialize() {
-        EasyGameModel easyGameModel = new EasyGameModel();
-        TileFieldHandler tileFieldHandler = easyGameModel.getTileFieldHandler();
-        Tile[][] tileField = tileFieldHandler.getTileField();
-        for (int rowIndex = 0; rowIndex < tileFieldHandler.getRows(); rowIndex++) {
-            for (int columnIndex = 0; columnIndex < tileFieldHandler.getColumns(); columnIndex++) {
-                Tile currentTile = tileField[rowIndex][columnIndex];
-                currentTile.getImageView().setOnMouseClicked(mouseEvent -> {
-                    if(mouseEvent.getButton() == MouseButton.PRIMARY) {
-                        tileFieldHandler.handleUserGuessOn(currentTile);
-                    }
-                    if(mouseEvent.getButton() == MouseButton.SECONDARY) {
-                        tileFieldHandler.handleFlag(currentTile);
-                    }
-                });
-                tilePane.getChildren().add(currentTile.getImageView());
-            }
-        }
+    private Text remainingMinesText;
+
+    @FXML
+    private Button restartButton;
+
+    @FXML
+    private Text timeCounterText;
+
+    @FXML
+    public void restartButtonOnClicked() {
+        easyGameModel.start();
     }
 
+    public TilePane getTilePane() {
+        return tilePane;
+    }
+
+    public Text getRemainingMinesText() {
+        return remainingMinesText;
+    }
+
+    public Button getRestartButton() {
+        return restartButton;
+    }
+
+    public Text getTimeCounterText() {
+        return timeCounterText;
+    }
 }
+
