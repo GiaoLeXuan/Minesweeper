@@ -74,7 +74,7 @@ public class Tile {
     }
 
     public boolean isNotExposed() {
-        return tileState == TileState.BLANK;
+        return tileState == TileState.BLANK || tileState == TileState.FLAG;
     }
 
     public boolean isNotFlagged() {

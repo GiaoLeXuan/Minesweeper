@@ -10,10 +10,13 @@ public class TileFieldHandler {
     private final int columns;
     private final int numberOfMines;
 
+    private int remainingTiles;
+
     public TileFieldHandler(int rows, int columns, int numberOfMines) {
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
+        remainingTiles = rows * columns;
         initializeTileField();
     }
 
@@ -104,6 +107,10 @@ public class TileFieldHandler {
             exposeAllMines();
         } else {
             exposeTile(tile);
+            remainingTiles--;
+            if(remainingTiles == numberOfMines) {
+                System.out.println("Victory!");
+            }
             if (tile.isNoMineAround()) {
                 for (Tile currentTile : getAdjacentTilesOf(tile)) {
                     if (currentTile.isNotExposed()) {
