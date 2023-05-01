@@ -7,7 +7,7 @@ import java.util.Map;
 
 public class TileImage {
     private static final TileImage tileImage = new TileImage();
-    public static Map<TileState, Image> imageList = new HashMap<>();
+    public Map<TileState, Image> imageList = new HashMap<>();
 
     private TileImage() {
         for (TileState tileState : TileState.tileStates) {

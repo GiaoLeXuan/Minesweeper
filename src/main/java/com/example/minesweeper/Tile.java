@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 
 public class Tile {
 
-    public static final int THIS_IS_A_MINE = 9;
+    private boolean isMine = false;
     private final int rowIndex;
     private final int columnIndex;
     private int neighbourMinesCount = 0;
@@ -65,10 +65,12 @@ public class Tile {
         return neighbourMinesCount == 0;
     }
 
-    public boolean isMine() {return neighbourMinesCount == THIS_IS_A_MINE;}
+    public boolean isMine() {
+        return isMine;
+    }
 
-    public void setToMine() {
-        neighbourMinesCount = THIS_IS_A_MINE;
+    public void setMine(boolean isMine) {
+        this.isMine = isMine;
     }
 
     public boolean isNotExposed() {

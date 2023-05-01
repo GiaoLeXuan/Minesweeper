@@ -5,17 +5,19 @@ import java.util.Random;
 
 
 public class TileFieldHandler {
-    private final Tile[][] tileField;
-
+    private Tile[][] tileField;
     private final int rows;
     private final int columns;
-
     private final int numberOfMines;
 
     public TileFieldHandler(int rows, int columns, int numberOfMines) {
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
+        initializeTileField();
+    }
+
+    private void initializeTileField() {
         tileField = new Tile[rows][columns];
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
@@ -33,7 +35,7 @@ public class TileFieldHandler {
             int column = random.nextInt(columns);
             Tile tile = tileField[row][column];
             if (!tile.isMine()) {
-                tile.setToMine();
+                tile.setMine(true);
                 updateAdjacentTilesOfMine(tile);
                 countCreatedMines++;
             }
