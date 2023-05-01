@@ -5,12 +5,8 @@ import java.util.Random;
 
 
 public class TileFieldHandler {
-
-    private static final IntegerCoordinate[] adjacentCoordinates = new IntegerCoordinate[]{
-            new IntegerCoordinate(-1, -1), new IntegerCoordinate(-1, 0), new IntegerCoordinate(-1, 1),
-            new IntegerCoordinate(0, -1), new IntegerCoordinate(0, 1), new IntegerCoordinate(1, -1),
-            new IntegerCoordinate(1, 0), new IntegerCoordinate(1, 1)};
     private final Tile[][] tileField;
+
     private final int rows;
     private final int columns;
 
@@ -23,7 +19,7 @@ public class TileFieldHandler {
         tileField = new Tile[rows][columns];
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
-                tileField[rowIndex][columnIndex] = new Tile();
+                tileField[rowIndex][columnIndex] = new Tile(rowIndex, columnIndex);
             }
         }
         generateMinesInTileField();
@@ -35,59 +31,33 @@ public class TileFieldHandler {
         while (countCreatedMines < numberOfMines) {
             int row = random.nextInt(rows);
             int column = random.nextInt(columns);
-            if (tileField[row][column].getTileState() != TileState.MINE) {
-                tileField[row][column].setTileState(TileState.MINE);
-                updateAdjacentTilesOfMine(row, column);
+            Tile tile = tileField[row][column];
+            if (!tile.isMine()) {
+                tile.setToMine();
+                updateAdjacentTilesOfMine(tile);
                 countCreatedMines++;
             }
         }
     }
 
-    private void updateAdjacentTilesOfMine(int rowIndex, int columnIndex) {
-        for (Tile tile : getAdjacentTiles(rowIndex, columnIndex)) {
-            calculateTileNumber(tile);
-        }
-    }
-
-    private ArrayList<Tile> getAdjacentTiles(int rowIndex, int columnIndex) {
-        ArrayList<Tile> result = new ArrayList<>();
-        for (IntegerCoordinate adjacentCoordinate : adjacentCoordinates) {
-            Tile currentTile = getValidatedTile(rowIndex + adjacentCoordinate.x,
-                    columnIndex + adjacentCoordinate.y);
-            if (currentTile != null) {
-                result.add(currentTile);
+    private void updateAdjacentTilesOfMine(Tile mineTile) {
+        for (Tile adjacentTile : getAdjacentTilesOf(mineTile)) {
+            if (!adjacentTile.isMine()) {
+                adjacentTile.increaseNeighbourMinesCount();
             }
         }
-        return result;
     }
 
-    private Tile getValidatedTile(int rowIndex, int columnsIndex) {
-        if (isValidTileIndex(rowIndex, columnsIndex)) {
-            return tileField[rowIndex][columnsIndex];
-        } else {
-            return null;
+    public ArrayList<Tile> getAdjacentTilesOf(Tile tile) {
+        ArrayList<Tile> tilesAround = new ArrayList<>();
+        for (int rowIndex = tile.getRowIndex() - 1; rowIndex <= tile.getRowIndex() + 1; rowIndex++) {
+            for (int columnIndex = tile.getColumnIndex() - 1; columnIndex <= tile.getColumnIndex() + 1; columnIndex++) {
+                if (rowIndex >= 0 && columnIndex >= 0 && rowIndex < rows && columnIndex < columns) {
+                    tilesAround.add(tileField[rowIndex][columnIndex]);
+                }
+            }
         }
-    }
-
-    private boolean isValidTileIndex(int rowIndex, int columnIndex) {
-        return (rowIndex >= 0 && rowIndex < rows && columnIndex >= 0 && columnIndex < columns);
-    }
-
-    private static void calculateTileNumber(Tile currentTile) {
-        currentTile.numberOfMinesAround++;
-        currentTile.setTileState(switch (currentTile.numberOfMinesAround) {
-            case 0 -> TileState.EXPOSED;
-            case 1 -> TileState.NUMBER_ONE;
-            case 2 -> TileState.NUMBER_TWO;
-            case 3 -> TileState.NUMBER_THREE;
-            case 4 -> TileState.NUMBER_FOUR;
-            case 5 -> TileState.NUMBER_FIVE;
-            case 6 -> TileState.NUMBER_SIX;
-            case 7 -> TileState.NUMBER_SEVEN;
-            case 8 -> TileState.NUMBER_EIGHT;
-            default ->
-                    throw new IllegalStateException("Unexpected value: " + currentTile.numberOfMinesAround);
-        });
+        return tilesAround;
     }
 
     public int getColumns() {
@@ -103,7 +73,67 @@ public class TileFieldHandler {
         return tileField;
     }
 
-    public void exposeTilesRecursively(Tile currentTile) {
+    public void exposeTile(Tile tile) {
+        tile.setTileState(TileState.tileStates[tile.getNeighbourMinesCount()]);
+    }
 
+    public void handleUserGuessOn(Tile tile) {
+        if (tile.isNotFlagged()) {
+            if (tile.isNotExposed()) {
+                doSingleGuess(tile);
+            } else {
+                doMultiGuess(tile);
+            }
+        }
+    }
+
+    private void doMultiGuess(Tile tile) {
+        if (tile.isNumberOfFlagsEqualMines()) {
+            for (Tile currentTile : getAdjacentTilesOf(tile)) {
+                if (currentTile.isNotFlagged()) {
+                    doSingleGuess(currentTile);
+                }
+            }
+        }
+    }
+
+    private void doSingleGuess(Tile tile) {
+        if (tile.isMine()) {
+            exposeAllMines();
+        } else {
+            exposeTile(tile);
+            if (tile.isNoMineAround()) {
+                for (Tile currentTile : getAdjacentTilesOf(tile)) {
+                    if (currentTile.isNotExposed()) {
+                        doSingleGuess(currentTile);
+                    }
+                }
+            }
+        }
+    }
+
+    private void exposeAllMines() {
+        for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
+            for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
+                Tile tile = tileField[rowIndex][columnIndex];
+                if (tile.isMine()) {
+                    tile.setTileState(TileState.HIT_MINE);
+                }
+            }
+        }
+    }
+
+    public void handleFlag(Tile tile) {
+        if (tile.getTileState() == TileState.FLAG) {
+            tile.setTileState(TileState.BLANK);
+            for (Tile currentTile : getAdjacentTilesOf(tile)) {
+                currentTile.decreaseNeighbourFlagsCount();
+            }
+        } else if (tile.getTileState() == TileState.BLANK) {
+            tile.setTileState(TileState.FLAG);
+            for (Tile currentTile : getAdjacentTilesOf(tile)) {
+                currentTile.increaseNeighbourFlagsCount();
+            }
+        }
     }
 }

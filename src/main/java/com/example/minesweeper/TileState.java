@@ -1,10 +1,7 @@
 package com.example.minesweeper;
 
 public enum TileState {
-    BLANK("blank.png"),
     EXPOSED("exposed.png"),
-    FLAG("flag.png"),
-    MINE("mine.png"),
     NUMBER_ONE("number1.png"),
     NUMBER_TWO("number2.png"),
     NUMBER_THREE("number3.png"),
@@ -12,7 +9,11 @@ public enum TileState {
     NUMBER_FIVE("number5.png"),
     NUMBER_SIX("number6.png"),
     NUMBER_SEVEN("number7.png"),
-    NUMBER_EIGHT("number8.png");
+    NUMBER_EIGHT("number8.png"),
+    MINE("mine.png"),
+    HIT_MINE("hit-mine.png"),
+    FLAG("flag.png"),
+    BLANK("blank.png");
 
     private final String fileName;
 
@@ -25,4 +26,6 @@ public enum TileState {
     public String getImagePath() {
         return String.valueOf(MinesweeperApplication.class.getResource(pathToImages + fileName));
     }
+
+    public static final TileState[] tileStates = TileState.values();
 }

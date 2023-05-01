@@ -20,9 +20,11 @@ public class SceneManager {
         Scene scene;
         try {
             scene = generateScene(sceneName);
-            sceneManager.primaryStage.setScene(scene);
-            sceneManager.primaryStage.setResizable(false);
-            sceneManager.primaryStage.show();
+            Stage primaryStage = sceneManager.primaryStage;
+            primaryStage.setScene(scene);
+            primaryStage.setTitle("Minesweeper");
+            primaryStage.setResizable(false);
+            primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
