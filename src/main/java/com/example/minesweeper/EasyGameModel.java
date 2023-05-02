@@ -6,7 +6,7 @@ import javafx.scene.layout.TilePane;
 public class EasyGameModel {
 
     private final EasyGameController easyGameController;
-    private TileFieldHandler tileFieldHandler;
+    private BoardHandler boardHandler;
 
     public EasyGameModel(EasyGameController easyGameController) {
         this.easyGameController = easyGameController;
@@ -18,7 +18,7 @@ public class EasyGameModel {
 
     private void initialize() {
         setGameState(GameState.RUNNING);
-        tileFieldHandler = new TileFieldHandler(9, 9, 10, this);
+        boardHandler = new BoardHandler(9, 9, 10, this);
         addTileFieldToTilePane();
     }
 
@@ -26,11 +26,11 @@ public class EasyGameModel {
         TilePane tilePane = easyGameController.getTilePane();
         tilePane.getChildren().clear();
         easyGameController.getRemainingMinesText()
-                .setText(String.valueOf(tileFieldHandler.getRemainingMines()));
+                .setText(String.valueOf(boardHandler.getRemainingMines()));
 
-        Tile[][] tileField = tileFieldHandler.getTileField();
-        for (int rowIndex = 0; rowIndex < tileFieldHandler.getRows(); rowIndex++) {
-            for (int columnIndex = 0; columnIndex < tileFieldHandler.getColumns(); columnIndex++) {
+        Tile[][] tileField = boardHandler.getBoard();
+        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
+            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
                 tilePane.getChildren()
                         .add(tileField[rowIndex][columnIndex].getImageView());
             }

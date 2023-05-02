@@ -5,16 +5,14 @@ import javafx.scene.image.ImageView;
 
 public class Tile {
 
-    private boolean isMine = false;
     private final int rowIndex;
     private final int columnIndex;
-    private int neighbourMinesCount = 0;
-
-    private int neighbourFlagsCount = 0;
-    private TileState tileState = TileState.BLANK;
-
     private final ImageView imageView =
             new ImageView(new Image(TileState.BLANK.getImagePath()));
+    private boolean isMine = false;
+    private int neighbourMinesCount = 0;
+    private int neighbourFlagsCount = 0;
+    private TileState tileState = TileState.BLANK;
 
     public Tile(int rowIndex, int columnIndex) {
         this.rowIndex = rowIndex;
@@ -81,5 +79,12 @@ public class Tile {
 
     public boolean isNotFlagged() {
         return tileState != TileState.FLAG;
+    }
+
+    public boolean isNeighbourOf(Tile otherTile) {
+        return otherTile.getRowIndex() - 1 <= rowIndex
+                && otherTile.getRowIndex() + 1 >= rowIndex
+                && otherTile.getColumnIndex() - 1 <= columnIndex
+                && otherTile.getColumnIndex() + 1 >= columnIndex;
     }
 }

@@ -2,11 +2,12 @@ package com.example.minesweeper;
 
 import javafx.scene.input.MouseButton;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
 
 
-public class TileFieldHandler {
+public class BoardHandler {
 
     private final EasyGameModel easyGameModel;
     private final int rows;
@@ -14,10 +15,14 @@ public class TileFieldHandler {
     private final int numberOfMines;
     public int remainingTiles;
     public int remainingMines;
-    private Tile[][] tileField;
+    private Tile[][] board;
 
-    public TileFieldHandler(int rows, int columns, int numberOfMines,
-                            EasyGameModel easyGameModel) {
+    private final Random random = new SecureRandom();
+
+    private boolean isWaitingFirstTileClicked = true;
+
+    public BoardHandler(int rows, int columns, int numberOfMines,
+                        EasyGameModel easyGameModel) {
         this.easyGameModel = easyGameModel;
         this.rows = rows;
         this.columns = columns;
@@ -28,16 +33,20 @@ public class TileFieldHandler {
     }
 
     private void initializeTileField() {
-        tileField = new Tile[rows][columns];
+        board = new Tile[rows][columns];
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
                 Tile currentTile = new Tile(rowIndex, columnIndex);
-                tileField[rowIndex][columnIndex] = currentTile;
-                currentTile.getImageView().setOnMouseClicked(mouseEvent -> {
-                    if (mouseEvent.getButton() == MouseButton.PRIMARY) {
+                board[rowIndex][columnIndex] = currentTile;
+                currentTile.getImageView().setOnMouseClicked(mouseClick -> {
+                    if (mouseClick.getButton() == MouseButton.PRIMARY) {
+                        if (isWaitingFirstTileClicked) {
+                            isWaitingFirstTileClicked = false;
+                            generateMinesInTileField(currentTile);
+                        }
                         handleUserGuessOn(currentTile);
                     }
-                    if (mouseEvent.getButton() == MouseButton.SECONDARY) {
+                    if (mouseClick.getButton() == MouseButton.SECONDARY) {
                         handleFlag(currentTile);
                         easyGameModel.getEasyGameController()
                                 .getRemainingMinesText()
@@ -46,24 +55,25 @@ public class TileFieldHandler {
                 });
             }
         }
-        generateMinesInTileField();
     }
 
-    private void generateMinesInTileField() {
-        Random random = new Random();
-        int countCreatedMines = 0;
-        while (countCreatedMines < numberOfMines) {
-            int row = random.nextInt(rows);
-            int column = random.nextInt(columns);
-            Tile tile = tileField[row][column];
-            if (!tile.isMine()) {
-                tile.setMine(true);
-                updateAdjacentTilesOfMine(tile);
-                countCreatedMines++;
+    private void generateMinesInTileField(Tile firstClickedTile) {
+        int minesCreatedCounter = 0;
+        while (minesCreatedCounter < numberOfMines) {
+            Tile tileToBeInsertedMine = getRandomTile();
+            if (!tileToBeInsertedMine.isMine() && !tileToBeInsertedMine.isNeighbourOf(firstClickedTile)) {
+                tileToBeInsertedMine.setMine(true);
+                updateAdjacentTilesOfMine(tileToBeInsertedMine);
+                minesCreatedCounter++;
             }
         }
     }
 
+    private Tile getRandomTile() {
+        int rowIndex = random.nextInt(rows);
+        int columnIndex = random.nextInt(columns);
+        return board[rowIndex][columnIndex];
+    }
     private void updateAdjacentTilesOfMine(Tile mineTile) {
         for (Tile adjacentTile : getAdjacentTilesOf(mineTile)) {
             if (!adjacentTile.isMine()) {
@@ -77,7 +87,7 @@ public class TileFieldHandler {
         for (int rowIndex = tile.getRowIndex() - 1; rowIndex <= tile.getRowIndex() + 1; rowIndex++) {
             for (int columnIndex = tile.getColumnIndex() - 1; columnIndex <= tile.getColumnIndex() + 1; columnIndex++) {
                 if (rowIndex >= 0 && columnIndex >= 0 && rowIndex < rows && columnIndex < columns) {
-                    tilesAround.add(tileField[rowIndex][columnIndex]);
+                    tilesAround.add(board[rowIndex][columnIndex]);
                 }
             }
         }
@@ -93,8 +103,8 @@ public class TileFieldHandler {
     }
 
 
-    public Tile[][] getTileField() {
-        return tileField;
+    public Tile[][] getBoard() {
+        return board;
     }
 
     public void exposeTile(Tile tile) {
@@ -144,7 +154,7 @@ public class TileFieldHandler {
     private void exposeAllMines() {
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
-                Tile tile = tileField[rowIndex][columnIndex];
+                Tile tile = board[rowIndex][columnIndex];
                 if (tile.isMine()) {
                     tile.setTileState(TileState.HIT_MINE);
                 }
