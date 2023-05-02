@@ -11,7 +11,7 @@ public class RestartButton {
     private static final RestartButton RESTART_BUTTON = new RestartButton();
 
     private RestartButton() {
-        for(GameState gameState : GameState.values()) {
+        for (GameState gameState : GameState.values()) {
             faceImageMap.put(gameState, new Image(gameState.getImagePath()));
         }
     }

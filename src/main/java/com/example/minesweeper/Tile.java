@@ -13,7 +13,8 @@ public class Tile {
     private int neighbourFlagsCount = 0;
     private TileState tileState = TileState.BLANK;
 
-    private final ImageView imageView = new ImageView(new Image(TileState.BLANK.getImagePath()));
+    private final ImageView imageView =
+            new ImageView(new Image(TileState.BLANK.getImagePath()));
 
     public Tile(int rowIndex, int columnIndex) {
         this.rowIndex = rowIndex;
@@ -26,7 +27,8 @@ public class Tile {
 
     public void setTileState(TileState tileState) {
         this.tileState = tileState;
-        imageView.setImage(TileImage.getInstance().getImageList().get(tileState));
+        imageView.setImage(TileImage.getInstance().getImageList()
+                .get(tileState));
     }
 
     public int getRowIndex() {

@@ -1,7 +1,5 @@
 package com.example.minesweeper;
 
-import javafx.scene.image.Image;
-
 public enum GameState {
     RUNNING("smiling-face.png"),
     WON("cool-face.png"),

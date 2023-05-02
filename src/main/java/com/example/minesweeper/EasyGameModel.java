@@ -7,7 +7,6 @@ public class EasyGameModel {
 
     private final EasyGameController easyGameController;
     private TileFieldHandler tileFieldHandler;
-    private GameState gameState;
 
     public EasyGameModel(EasyGameController easyGameController) {
         this.easyGameController = easyGameController;
@@ -39,7 +38,6 @@ public class EasyGameModel {
     }
 
     public void setGameState(GameState gameState) {
-        this.gameState = gameState;
         easyGameController.getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()
                         .getFaceImageMap().get(gameState)));

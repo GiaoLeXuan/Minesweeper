@@ -41,5 +41,9 @@ public class EasyGameController {
     public Text getTimeCounterText() {
         return timeCounterText;
     }
+
+    public EasyGameModel getEasyGameModel() {
+        return easyGameModel;
+    }
 }
 

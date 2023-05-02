@@ -9,13 +9,16 @@ import java.io.IOException;
 public class SceneManager {
     private Stage primaryStage;
 
-    private static SceneManager sceneManager;
+    private static FXMLLoader fxmlLoader = new FXMLLoader();
+
+    private static final SceneManager sceneManager = new SceneManager();
 
     private SceneManager() {}
 
     public static void switchScene(String sceneName) {
         if (sceneManager == null) {
-            throw new NullPointerException("Scene Manager class have no instance.");
+            throw new NullPointerException("Scene Manager class have no " +
+                    "instance.");
         }
         Scene scene;
         try {
@@ -31,14 +34,16 @@ public class SceneManager {
     }
 
     private static Scene generateScene(String sceneName) throws IOException {
-        return new Scene(new FXMLLoader(MinesweeperApplication.class.getResource(sceneName)).load());
+        fxmlLoader =
+                new FXMLLoader(MinesweeperApplication.class.getResource(sceneName));
+        return new Scene(fxmlLoader.load());
     }
 
     public static void setPrimaryStage(Stage primaryStage) {
-        if (sceneManager == null) {
-            sceneManager = new SceneManager();
-        }
         sceneManager.primaryStage = primaryStage;
     }
 
+    public static FXMLLoader getFxmlLoader() {
+        return fxmlLoader;
+    }
 }
