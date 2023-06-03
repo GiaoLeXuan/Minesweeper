@@ -27,6 +27,7 @@ public class SceneManager {
             primaryStage.setScene(scene);
             primaryStage.setTitle("Minesweeper");
             primaryStage.setResizable(false);
+            primaryStage.centerOnScreen();
             primaryStage.show();
         } catch (IOException e) {
             throw new RuntimeException(e);

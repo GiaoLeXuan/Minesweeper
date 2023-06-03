@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.minesweeper.StartMenuController">
+
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.StartMenuController">
     <VBox alignment="CENTER" spacing="10.0">
         <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Minesweeper" wrappingWidth="117.607421875">
             <font>
-                <Font size="20.0"/>
+                <Font size="20.0" />
             </font>
         </Text>
         <HBox>
             <MenuButton mnemonicParsing="false" prefHeight="26.0" prefWidth="62.0" text="File">
                 <items>
                     <Menu mnemonicParsing="false" text="New">
-                        <MenuItem mnemonicParsing="false" onAction="#easyModeOnClicked"
-                                  text="Easy (10x10)"/>
-                        <MenuItem mnemonicParsing="false" text="Meidum (20x20)"/>
+                        <MenuItem mnemonicParsing="false" onAction="#easyModeOnClicked" text="Easy (9x9)" />
+                        <MenuItem mnemonicParsing="false" onAction="#mediumModeOnClicked" text="Medium (16x16)" />
+                  <MenuItem mnemonicParsing="false" onAction="#hardModeOnClicked" text="Hard (16x30)"  />
+                  <MenuItem mnemonicParsing="false" text="Custom" />
                     </Menu>
-                    <MenuItem mnemonicParsing="false" text="Open.."/>
+                    <MenuItem mnemonicParsing="false" text="Open.." />
                 </items>
             </MenuButton>
-            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Help"/>
+            <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="68.0" text="Help" />
         </HBox>
     </VBox>
 </AnchorPane>

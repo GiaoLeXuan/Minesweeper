@@ -9,7 +9,7 @@ import java.util.Random;
 
 public class BoardHandler {
 
-    private final EasyGameModel easyGameModel;
+    private final GameModel gameModel;
     private final int rows;
     private final int columns;
     private final int numberOfMines;
@@ -22,8 +22,8 @@ public class BoardHandler {
     private boolean isWaitingFirstTileClicked = true;
 
     public BoardHandler(int rows, int columns, int numberOfMines,
-                        EasyGameModel easyGameModel) {
-        this.easyGameModel = easyGameModel;
+                        GameModel gameModel) {
+        this.gameModel = gameModel;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
@@ -48,7 +48,7 @@ public class BoardHandler {
                     }
                     if (mouseClick.getButton() == MouseButton.SECONDARY) {
                         handleFlag(currentTile);
-                        easyGameModel.getEasyGameController()
+                        gameModel.getGameController()
                                 .getRemainingMinesText()
                                 .setText(String.valueOf(remainingMines));
                     }
@@ -134,12 +134,12 @@ public class BoardHandler {
     private void doSingleGuess(Tile tile) {
         if (tile.isMine()) {
             exposeAllMines();
-            easyGameModel.setGameState(GameState.LOST);
+            gameModel.setGameState(GameState.LOST);
         } else if (tile.isNotExposed()) {
             exposeTile(tile);
             remainingTiles--;
             if (remainingTiles == numberOfMines) {
-                easyGameModel.setGameState(GameState.WON);
+                gameModel.setGameState(GameState.WON);
             }
             if (tile.isNoMineAround()) {
                 for (Tile currentTile : getAdjacentTilesOf(tile)) {
