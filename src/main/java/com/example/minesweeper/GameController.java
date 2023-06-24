@@ -61,4 +61,8 @@ public abstract class GameController {
     public void setGameModel(GameModel gameModel) {
         this.gameModel = gameModel;
     }
+
+    public Text getTimeCounterText() {
+        return timeCounterText;
+    }
 }

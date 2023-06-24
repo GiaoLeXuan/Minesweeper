@@ -11,6 +11,7 @@ public abstract class GameModel {
     private final GameController gameController;
     private BoardHandler boardHandler;
 
+    private final TimeCounter timeCounter = new TimeCounter(this);
     public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.rows = rows;
@@ -26,6 +27,7 @@ public abstract class GameModel {
     protected void initialize() {
         setGameState(GameState.RUNNING);
         setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
+        timeCounter.start();
     }
 
     public GameController getGameController() {
@@ -34,6 +36,9 @@ public abstract class GameModel {
 
     public void setGameState(GameState gameState) {
         setFaceImageAccordingTo(gameState);
+        if(gameState != GameState.RUNNING) {
+            timeCounter.stop();
+        }
     }
 
     private void setFaceImageAccordingTo(GameState gameState) {
