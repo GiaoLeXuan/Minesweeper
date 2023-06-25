@@ -10,17 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.EasyGameController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.MediumGameController">
     <VBox>
         <MenuBar>
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="Close" />
+                <MenuItem mnemonicParsing="false" text="Close" />
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                 <MenuItem mnemonicParsing="false" text="Delete" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" onAction="#helpOnClicked" text="About" />
+                <MenuItem mnemonicParsing="false" text="About" />
             </Menu>
         </MenuBar>
         <HBox alignment="CENTER">
@@ -28,6 +28,6 @@
             <Button fx:id="restartButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" mnemonicParsing="false" onAction="#restartButtonOnClicked" prefHeight="30.0" prefWidth="30.0" text="Button" />
             <Text fx:id="timeCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="50.0" />
         </HBox>
-        <TilePane fx:id="tilePane" prefColumns="9" prefHeight="216.0" prefRows="9" prefWidth="216.0" />
+        <TilePane fx:id="tilePane" prefColumns="16" prefHeight="384.0" prefRows="16" prefWidth="384.0" />
     </VBox>
 </AnchorPane>

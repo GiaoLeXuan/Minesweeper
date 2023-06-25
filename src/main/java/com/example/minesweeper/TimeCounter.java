@@ -9,7 +9,12 @@ public class TimeCounter {
     GameModel gameModel;
     private static final int INITIAL_TIME = 0;
     private int timeCounter = INITIAL_TIME;
-    Timeline timeline = new Timeline();
+    
+    public int getTimeCounter() {
+		return timeCounter;
+	}
+
+	Timeline timeline = new Timeline();
 
     public TimeCounter(GameModel gameModel) {
         this.gameModel = gameModel;

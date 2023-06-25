@@ -12,7 +12,12 @@ public abstract class GameModel {
     private BoardHandler boardHandler;
 
     private final TimeCounter timeCounter = new TimeCounter(this);
-    public GameModel(GameController gameController, int rows, int columns,
+    
+    public TimeCounter getTimeCounter() {
+		return timeCounter;
+	}
+
+	public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.rows = rows;
         this.columns = columns;
