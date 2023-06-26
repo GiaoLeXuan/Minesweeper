@@ -1,10 +1,10 @@
 package com.example.minesweeper;
 
-import javafx.scene.input.MouseButton;
-
 import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javafx.scene.input.MouseButton;
 
 
 public class BoardHandler {
@@ -43,6 +43,7 @@ public class BoardHandler {
                         if (isWaitingFirstTileClicked) {
                             isWaitingFirstTileClicked = false;
                             generateMinesInTileField(currentTile);
+                            gameModel.getTimeCounter().start();
                         }
                         handleUserGuessOn(currentTile);
                     }
@@ -181,4 +182,6 @@ public class BoardHandler {
     public int getRemainingMines() {
         return remainingMines;
     }
+    
+
 }

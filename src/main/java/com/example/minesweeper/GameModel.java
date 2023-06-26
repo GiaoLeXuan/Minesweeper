@@ -1,5 +1,6 @@
 package com.example.minesweeper;
 
+import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 
 public abstract class GameModel {
@@ -11,13 +12,15 @@ public abstract class GameModel {
     private final GameController gameController;
     private BoardHandler boardHandler;
 
-    private final TimeCounter timeCounter = new TimeCounter(this);
-    public GameModel(GameController gameController, int rows, int columns,
+    private final TimeCounter timeCounter;
+    
+	public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
+        this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
-        this.gameController = gameController;
+        timeCounter = new TimeCounter(this);
     }
 
     public void start() {
@@ -27,7 +30,6 @@ public abstract class GameModel {
     protected void initialize() {
         setGameState(GameState.RUNNING);
         setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
-        timeCounter.start();
     }
 
     public GameController getGameController() {
@@ -38,9 +40,21 @@ public abstract class GameModel {
         setFaceImageAccordingTo(gameState);
         if(gameState != GameState.RUNNING) {
             timeCounter.stop();
+            if(gameState == GameState.WON) {
+                showCompletionTime(timeCounter.getElapsedTime());
+            }
         }
     }
 
+    private void showCompletionTime(int elapsedTime) {
+        String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
+
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game Over");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     private void setFaceImageAccordingTo(GameState gameState) {
         getGameController().getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()
@@ -54,5 +68,9 @@ public abstract class GameModel {
     public void setBoardHandler(BoardHandler boardHandler) {
         this.boardHandler = boardHandler;
         gameController.addTileFieldToTilePane();
+    }
+
+    public TimeCounter getTimeCounter() {
+        return timeCounter;
     }
 }

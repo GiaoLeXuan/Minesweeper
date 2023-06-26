@@ -10,17 +10,17 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.MediumGameController">
+<AnchorPane xmlns="http://javafx.com/javafx/null" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.MediumGameController">
     <VBox>
         <MenuBar>
             <Menu mnemonicParsing="false" text="File">
-                <MenuItem mnemonicParsing="false" text="Close" />
+                <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="Close" />
             </Menu>
             <Menu mnemonicParsing="false" text="Edit">
                 <MenuItem mnemonicParsing="false" text="Delete" />
             </Menu>
             <Menu mnemonicParsing="false" text="Help">
-                <MenuItem mnemonicParsing="false" text="About" />
+                <MenuItem mnemonicParsing="false" onAction="#helpOnClicked" text="About" />
             </Menu>
         </MenuBar>
         <HBox alignment="CENTER">
