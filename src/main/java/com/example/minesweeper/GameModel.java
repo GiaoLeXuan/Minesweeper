@@ -2,6 +2,8 @@ package com.example.minesweeper;
 
 import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 
 public abstract class GameModel {
 
@@ -13,6 +15,8 @@ public abstract class GameModel {
     private BoardHandler boardHandler;
 
     private final TimeCounter timeCounter;
+
+    private MediaPlayer mediaPlayer;
     
 	public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
@@ -30,6 +34,13 @@ public abstract class GameModel {
     protected void initialize() {
         setGameState(GameState.RUNNING);
         setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
+        initializeMedia();
+    }
+
+    private void initializeMedia() {
+        Media mainTheme = new Media(MediaHandler.getMediaPath("mixkit-feeling-happy-5.mp3"));
+        mediaPlayer = new MediaPlayer(mainTheme);
+        mediaPlayer.setAutoPlay(true);
     }
 
     public GameController getGameController() {
