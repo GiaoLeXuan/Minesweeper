@@ -1,7 +1,10 @@
 package com.example.minesweeper;
 
 public class MediumGameModel extends GameModel{
+    public static final int ROWS = 16;
+    public static final int COLUMNS = 16;
+    public static final int NUMBER_OF_MINES = 40;
     public MediumGameModel(GameController gameController) {
-        super(gameController, 16, 16, 40);
+        super(gameController, ROWS, COLUMNS, NUMBER_OF_MINES);
     }
 }

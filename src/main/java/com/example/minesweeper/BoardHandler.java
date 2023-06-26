@@ -1,10 +1,13 @@
 package com.example.minesweeper;
 
+import javafx.scene.input.MouseButton;
+
+import java.io.*;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
-
-import javafx.scene.input.MouseButton;
 
 
 public class BoardHandler {
@@ -13,12 +16,10 @@ public class BoardHandler {
     private final int rows;
     private final int columns;
     private final int numberOfMines;
+    private final Random random = new SecureRandom();
     private int remainingTiles;
     private int remainingMines;
     private Tile[][] board;
-
-    private final Random random = new SecureRandom();
-
     private boolean isWaitingFirstTileClicked = true;
 
     public BoardHandler(int rows, int columns, int numberOfMines,
@@ -75,6 +76,7 @@ public class BoardHandler {
         int columnIndex = random.nextInt(columns);
         return board[rowIndex][columnIndex];
     }
+
     private void updateAdjacentTilesOfMine(Tile mineTile) {
         for (Tile adjacentTile : getAdjacentTilesOf(mineTile)) {
             if (!adjacentTile.isMine()) {
@@ -182,6 +184,6 @@ public class BoardHandler {
     public int getRemainingMines() {
         return remainingMines;
     }
-    
+
 
 }

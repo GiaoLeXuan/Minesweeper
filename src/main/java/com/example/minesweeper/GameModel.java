@@ -9,17 +9,15 @@ import javafx.util.Duration;
 public abstract class GameModel {
 
     private final int rows;
-
     private final int columns;
     private final int numberOfMines;
     private final GameController gameController;
-    private BoardHandler boardHandler;
-
     private final TimeCounter timeCounter;
-
+    private final RecordHandler recordHandler = new RecordHandler();
+    private BoardHandler boardHandler;
     private MediaPlayer mediaPlayer;
-    
-	public GameModel(GameController gameController, int rows, int columns,
+
+    public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.gameController = gameController;
         this.rows = rows;
@@ -54,16 +52,21 @@ public abstract class GameModel {
     }
 
     public void setGameState(GameState gameState) {
-        setFaceImageAccordingTo(gameState);
-        if(gameState != GameState.RUNNING) {
+        setFaceImageCorrespondingTo(gameState);
+        if (gameState != GameState.RUNNING) {
             timeCounter.stop();
-            if(gameState == GameState.WON) {
-                showCompletionTime(timeCounter.getElapsedTime());
+            if (gameState == GameState.WON) {
+                handleWonState();
             }
         }
     }
 
-    private void showCompletionTime(int elapsedTime) {
+    private void handleWonState() {
+        notifyOnWinning(timeCounter.getElapsedTime());
+        recordHandler.updateRecords(this, timeCounter.getElapsedTime());
+    }
+
+    private void notifyOnWinning(int elapsedTime) {
         String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
 
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
@@ -72,7 +75,8 @@ public abstract class GameModel {
         alert.setContentText(message);
         alert.showAndWait();
     }
-    private void setFaceImageAccordingTo(GameState gameState) {
+
+    private void setFaceImageCorrespondingTo(GameState gameState) {
         getGameController().getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()
                         .getFaceImageMap().get(gameState)));
