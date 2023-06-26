@@ -13,8 +13,8 @@ public class BoardHandler {
     private final int rows;
     private final int columns;
     private final int numberOfMines;
-    public int remainingTiles;
-    public int remainingMines;
+    private int remainingTiles;
+    private int remainingMines;
     private Tile[][] board;
 
     private final Random random = new SecureRandom();
