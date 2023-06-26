@@ -20,7 +20,7 @@ public class TimeCounter {
         initialize();
     }
 
-    private void initialize() {
+    public void initialize() {
         elapsedTime = INITIAL_TIME; // Reset the time counter
         gameModel.getGameController().getTimeCounterText().setText(String.valueOf(elapsedTime));
         timeline.stop(); // Stop the timeline before starting a new game

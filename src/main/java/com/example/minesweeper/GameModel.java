@@ -4,6 +4,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public abstract class GameModel {
 
@@ -25,6 +26,7 @@ public abstract class GameModel {
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
+        initializeMedia();
     }
 
     public void start() {
@@ -34,13 +36,17 @@ public abstract class GameModel {
     protected void initialize() {
         setGameState(GameState.RUNNING);
         setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
-        initializeMedia();
+        timeCounter.initialize();
     }
 
     private void initializeMedia() {
         Media mainTheme = new Media(MediaHandler.getMediaPath("mixkit-feeling-happy-5.mp3"));
         mediaPlayer = new MediaPlayer(mainTheme);
         mediaPlayer.setAutoPlay(true);
+        mediaPlayer.setOnEndOfMedia(() -> {
+            mediaPlayer.seek(Duration.ZERO);
+            mediaPlayer.play();
+        });
     }
 
     public GameController getGameController() {
