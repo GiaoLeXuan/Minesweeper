@@ -8,15 +8,12 @@ public class TimeCounter {
 
     GameModel gameModel;
     private static final int INITIAL_TIME = 0;
-    private int timeCounter;
     private final Timeline timeline = new Timeline();
     private int elapsedTime = INITIAL_TIME;
     
     public int getElapsedTime() {
 		return elapsedTime;
 	}
-
-	Timeline timeline = new Timeline();
 
     public TimeCounter(GameModel gameModel) {
         this.gameModel = gameModel;
