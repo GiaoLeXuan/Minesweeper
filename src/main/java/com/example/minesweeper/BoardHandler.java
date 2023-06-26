@@ -4,8 +4,6 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Random;
 
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseButton;
 
 
@@ -45,6 +43,7 @@ public class BoardHandler {
                         if (isWaitingFirstTileClicked) {
                             isWaitingFirstTileClicked = false;
                             generateMinesInTileField(currentTile);
+                            gameModel.getTimeCounter().start();
                         }
                         handleUserGuessOn(currentTile);
                     }
@@ -142,8 +141,6 @@ public class BoardHandler {
             remainingTiles--;
             if (remainingTiles == numberOfMines) {
                 gameModel.setGameState(GameState.WON);
-                int elapsedTime = gameModel.getTimeCounter().getTimeCounter();
-                showCompletionTime(elapsedTime);
             }
             if (tile.isNoMineAround()) {
                 for (Tile currentTile : getAdjacentTilesOf(tile)) {
@@ -186,13 +183,5 @@ public class BoardHandler {
         return remainingMines;
     }
     
-    private void showCompletionTime(int elapsedTime) {
-    	String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
 
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
-	}
 }

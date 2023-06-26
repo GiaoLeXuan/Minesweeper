@@ -26,7 +26,7 @@
         <HBox alignment="CENTER">
             <Text fx:id="remainingMinesText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="50.0" />
             <Button fx:id="restartButton" contentDisplay="GRAPHIC_ONLY" ellipsisString="" mnemonicParsing="false" onAction="#restartButtonOnClicked" prefHeight="30.0" prefWidth="30.0" text="Button" />
-            <Text fx:id="timeCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="RIGHT" wrappingWidth="50.0" />
+            <Text fx:id="timeCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="RIGHT" wrappingWidth="50.0" />
         </HBox>
         <TilePane fx:id="tilePane" prefColumns="9" prefHeight="216.0" prefRows="9" prefWidth="216.0" />
     </VBox>
