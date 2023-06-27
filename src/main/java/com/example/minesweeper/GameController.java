@@ -69,7 +69,7 @@ public abstract class GameController {
     }
       
     public void backToMenu() {
-    	SceneManager.switchScene("start-menu.fxml");
+    	SceneManager.switchScene("start-menu-test.fxml");
     }
     
     public void helpOnClicked() {

@@ -16,8 +16,20 @@ public class StartMenuController {
     public void hardModeOnClicked() {
         modeOnClicked("hard-mode.fxml");
     }
-
-    private void modeOnClicked(String fxmlFileName) {
+    
+    public void easyHighScoreOnClicked() {
+    	modeOnClicked("easy-high-score.fxml");
+    }
+    
+    public void mediumHighScoreOnClicked() {
+    	modeOnClicked("medium-high-score.fxml");
+    }
+    
+    public void hardHighScoreOnClicked() {
+    	modeOnClicked("hard-high-score.fxml");
+    }
+    
+    public void modeOnClicked(String fxmlFileName) {
         SceneManager.switchScene(fxmlFileName);
         GameController mediumGameController =
                 SceneManager.getFxmlLoader().getController();
@@ -40,6 +52,26 @@ public class StartMenuController {
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
         alert.setContentText(rules);
+        alert.showAndWait();
+    }
+    
+    public void aboutOnClicked() {
+    	String about = """
+    			MINESWEEPER - Bài tập lớn học phần Lập trình hướng đối tượng IT3100
+    			
+    			2023 - Kì 2022.2
+    			
+    			Được thực hiện bởi:
+    			Lê Xuân Giao - 20210290
+    			Nguyễn Hữu Đức - 20215353
+    			Lương Thanh Tùng - 20215508
+    			Ngô Văn Tân - 20210769
+    			""";
+    	
+    	Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Minesweeper");
+        alert.setHeaderText(null);
+        alert.setContentText(about);
         alert.showAndWait();
     }
 }
