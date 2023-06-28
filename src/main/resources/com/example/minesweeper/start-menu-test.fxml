@@ -78,17 +78,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <ImageView fitHeight="56.0" fitWidth="171.0" layoutX="47.0" layoutY="343.0">
+      <ImageView fitHeight="29.0" fitWidth="76.0" layoutX="92.0" layoutY="344.0">
          <image>
-            <Image url="@start_menu_images/help.png" />
+            <Image url="@start_menu_images/help1.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="56.0" fitWidth="171.0" layoutX="207.0" layoutY="343.0">
+      <ImageView fitHeight="29.0" fitWidth="76.0" layoutX="251.0" layoutY="344.0">
          <image>
-            <Image url="@start_menu_images/about.png" />
+            <Image url="@start_menu_images/about1.png" />
          </image>
       </ImageView>
-      <Button contentDisplay="TOP" layoutX="106.0" layoutY="358.0" mnemonicParsing="false" onAction="#helpOnClicked" prefHeight="26.0" prefWidth="60.0" text=" ">
+      <Button layoutX="100.0" layoutY="346.0" mnemonicParsing="false" onAction="#helpOnClicked" prefHeight="26.0" prefWidth="62.0" text="  ">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -96,7 +96,7 @@
             <GaussianBlur radius="63.0" />
          </effect>
       </Button>
-      <Button contentDisplay="TOP" layoutX="258.0" layoutY="357.0" mnemonicParsing="false" onAction="#aboutOnClicked" prefHeight="26.0" prefWidth="72.0" text="   ">
+      <Button layoutX="251.0" layoutY="346.0" mnemonicParsing="false" onAction="#aboutOnClicked" prefHeight="26.0" prefWidth="76.0" text="  ">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
