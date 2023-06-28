@@ -31,7 +31,6 @@ public class HighScore {
 		this.time = time;
 	}
 	
-	
-	
+
 	
 }

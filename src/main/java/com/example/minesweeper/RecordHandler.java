@@ -38,7 +38,7 @@ public class RecordHandler {
         }
     }
 
-    private List<Integer> loadRecordsFromFile(String filePath) throws IOException {
+    public List<Integer> loadRecordsFromFile(String filePath) throws IOException {
         List<Integer> highScores = new ArrayList<>();
         File file = new File(filePath);
         if (file.exists()) {
