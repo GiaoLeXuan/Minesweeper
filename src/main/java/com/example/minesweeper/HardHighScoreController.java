@@ -25,9 +25,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 public class HardHighScoreController implements Initializable{
 	
 	@FXML
-	private TextField highScore;
-	
-	@FXML
 	private Button returnButton;
 
 	@FXML
