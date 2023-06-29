@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecordHandler {
-    private static final String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
+    public static final String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
 
     public void updateRecords(GameModel gameModel, int elapsedTime) {
         String fileName = "";
