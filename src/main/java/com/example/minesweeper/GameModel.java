@@ -102,18 +102,18 @@ public abstract class GameModel {
         vbox.getChildren().add(messageLabel);
         Label highscoreLabel = new Label("Top 5 Highscores:");
         vbox.getChildren().add(highscoreLabel);
-        TableView<HighScore> highscoreTableView = new TableView<>();
-        TableColumn<HighScore, Integer> rankColumn = new TableColumn<>("Rank");
-        TableColumn<HighScore, String> timeColumn = new TableColumn<>("Time");
+        TableView<Record> highscoreTableView = new TableView<>();
+        TableColumn<Record, Integer> rankColumn = new TableColumn<>("Rank");
+        TableColumn<Record, String> timeColumn = new TableColumn<>("Time");
         highscoreTableView.getColumns().addAll(rankColumn, timeColumn);
 
         // Create a list of HighScore objects
-        ObservableList<HighScore> highscoreList = FXCollections.observableArrayList();
+        ObservableList<Record> highscoreList = FXCollections.observableArrayList();
         List<Integer> highscores;
         try {
             highscores = getTopHighscoresFromFile();
             for (int i = 0; i < highscores.size(); i++) {
-                HighScore entry = new HighScore(i + 1, String.valueOf(highscores.get(i)));
+                Record entry = new Record(i + 1, String.valueOf(highscores.get(i)));
                 highscoreList.add(entry);
             }
         } catch (IOException e) {

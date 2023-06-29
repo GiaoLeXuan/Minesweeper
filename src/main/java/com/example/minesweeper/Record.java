@@ -1,6 +1,6 @@
 package com.example.minesweeper;
 
-public class HighScore {
+public class Record {
 	private int rank;
 	private String time;
 
@@ -12,7 +12,7 @@ public class HighScore {
 		this.time = time;
 	}
 
-	public HighScore(String time) {
+	public Record(String time) {
 		super();
 		this.time = time;
 	}
@@ -25,7 +25,7 @@ public class HighScore {
 		this.rank = rank;
 	}
 
-	public HighScore(int rank, String time) {
+	public Record(int rank, String time) {
 		super();
 		this.rank = rank;
 		this.time = time;

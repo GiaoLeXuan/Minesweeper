@@ -1,5 +1,6 @@
 package com.example.minesweeper;
 
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
@@ -18,15 +19,15 @@ public class StartMenuController {
     }
     
     public void easyHighScoreOnClicked() {
-    	modeOnClicked("easy-high-score.fxml");
+    	recordOnClicked("easy-high-score.fxml");
     }
     
     public void mediumHighScoreOnClicked() {
-    	modeOnClicked("medium-high-score.fxml");
+    	recordOnClicked("medium-high-score.fxml");
     }
     
     public void hardHighScoreOnClicked() {
-    	modeOnClicked("hard-high-score.fxml");
+    	recordOnClicked("hard-high-score.fxml");
     }
     
     public void modeOnClicked(String fxmlFileName) {
@@ -34,6 +35,10 @@ public class StartMenuController {
         GameController mediumGameController =
                 SceneManager.getFxmlLoader().getController();
         mediumGameController.getGameModel().start();
+    }
+
+    public void recordOnClicked(String fxmlFileName) {
+        SceneManager.switchScene(fxmlFileName);
     }
     
     public void helpOnClicked() {

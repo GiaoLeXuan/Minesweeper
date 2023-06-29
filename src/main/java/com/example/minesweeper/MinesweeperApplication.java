@@ -8,7 +8,7 @@ public class MinesweeperApplication extends Application {
     @Override
     public void start(Stage stage) {
         SceneManager.setPrimaryStage(stage);
-        SceneManager.switchScene("start-menu-test.fxml");
+        SceneManager.switchScene("start-menu.fxml");
     }
 
     public static void main(String[] args) {
