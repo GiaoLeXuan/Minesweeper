@@ -30,14 +30,14 @@
             <Image url="@start_menu_images/brush.png" />
          </image>
       </ImageView>
-      <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="23.0" layoutY="10.0">
-         <image>
-            <Image url="@start_menu_images/high%20score.png" />
-         </image>
-      </ImageView>
       <ImageView fitHeight="26.0" fitWidth="76.0" layoutX="84.0" layoutY="68.0">
          <image>
             <Image url="@start_menu_images/hard.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="66.0" fitWidth="200.0" layoutX="22.0" layoutY="10.0">
+         <image>
+            <Image url="@start_menu_images/record.png" />
          </image>
       </ImageView>
    </children>
