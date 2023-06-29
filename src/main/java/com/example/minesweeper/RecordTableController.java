@@ -3,8 +3,6 @@ package com.example.minesweeper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -15,29 +13,22 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 public class RecordTableController {
-    @FXML
-    private Button returnButton;
-
+    private final File recordFile;
     @FXML
     private TableView<HighScore> table;
-
     @FXML
     private TableColumn<Integer, HighScore> rankColumn;
-
     @FXML
     private TableColumn<String, HighScore> timeCompleted;
-
     @FXML
     private ObservableList<HighScore> highScoreList;
-
-    private final File recordFile;
 
     protected RecordTableController(String recordFilePath) {
         recordFile = new File(recordFilePath);
     }
 
     public void returnToMenu() {
-        SceneManager.switchScene("start-menu-test.fxml");
+        SceneManager.switchScene("start-menu.fxml");
     }
 
     public void initialize() {
@@ -51,6 +42,7 @@ public class RecordTableController {
 
         for (int i = 0; i < 5; i++) {
             try {
+                assert reader != null;
                 highScore[i] = reader.readLine();
             } catch (IOException e) {
                 // TODO Auto-generated catch block
@@ -64,8 +56,8 @@ public class RecordTableController {
                 new HighScore(4, highScore[3]),
                 new HighScore(5, highScore[4])
         );
-        rankColumn.setCellValueFactory(new PropertyValueFactory<Integer, HighScore>("rank"));
-        timeCompleted.setCellValueFactory(new PropertyValueFactory<String, HighScore>("time"));
+        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        timeCompleted.setCellValueFactory(new PropertyValueFactory<>("time"));
         table.setItems(highScoreList);
     }
 }
