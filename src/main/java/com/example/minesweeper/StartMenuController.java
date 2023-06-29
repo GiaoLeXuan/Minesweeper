@@ -18,15 +18,15 @@ public class StartMenuController {
     }
     
     public void easyHighScoreOnClicked() {
-    	modeOnClicked("easy-high-score.fxml");
+    	SceneManager.switchScene("easy-high-score.fxml");
     }
     
     public void mediumHighScoreOnClicked() {
-    	modeOnClicked("medium-high-score.fxml");
+        SceneManager.switchScene("medium-high-score.fxml");
     }
     
     public void hardHighScoreOnClicked() {
-    	modeOnClicked("hard-high-score.fxml");
+        SceneManager.switchScene("hard-high-score.fxml");
     }
     
     public void modeOnClicked(String fxmlFileName) {
