@@ -1,7 +1,7 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.game.*;
 import com.example.minesweeper.game.Record;
+import com.example.minesweeper.game.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -11,6 +11,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 
@@ -25,7 +26,6 @@ public abstract class GameModel {
     private final GameController gameController;
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler = new RecordHandler();
-    private BoardHandler boardHandler;
 
     public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
@@ -34,16 +34,30 @@ public abstract class GameModel {
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
+        startGame();
     }
 
-    public void start() {
+    public void startGame() {
         initialize();
     }
 
     protected void initialize() {
         setGameState(GameState.RUNNING);
-        setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
+        initializeBoard();
         timeCounter.initialize();
+    }
+
+    private void initializeBoard() {
+        BoardHandler boardHandler = new BoardHandler(rows, columns, numberOfMines, this);
+        TilePane tilePane = gameController.getTilePane();
+        tilePane.getChildren().clear();
+        gameController.getRemainingMinesText().setText(String.valueOf(boardHandler.getRemainingMines()));
+        Tile[][] tileField = boardHandler.getBoard();
+        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
+            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
+                tilePane.getChildren().add(tileField[rowIndex][columnIndex].getImageView());
+            }
+        }
     }
 
     public GameController getGameController() {
@@ -192,7 +206,7 @@ public abstract class GameModel {
         String fileName = "";
         String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
 
-        switch (boardHandler.getColumns()) {
+        switch (columns) {
             case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
             case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
             case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
@@ -213,17 +227,11 @@ public abstract class GameModel {
                         .getFaceImageMap().get(gameState)));
     }
 
-    public BoardHandler getBoardHandler() {
-        return boardHandler;
-    }
-
-    public void setBoardHandler(BoardHandler boardHandler) {
-        this.boardHandler = boardHandler;
-        gameController.addTileFieldToTilePane();
-    }
-
     public TimeCounter getTimeCounter() {
         return timeCounter;
     }
 
+    public int getColumns() {
+        return columns;
+    }
 }

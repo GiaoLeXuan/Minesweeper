@@ -1,7 +1,5 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.game.BoardHandler;
-import com.example.minesweeper.game.Tile;
 import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -33,19 +31,6 @@ public abstract class GameController {
 
     public abstract void initializeGameModel();
 
-    public void addTileFieldToTilePane() {
-        tilePane.getChildren().clear();
-        BoardHandler boardHandler = gameModel.getBoardHandler();
-        remainingMinesText.setText(String.valueOf(boardHandler.getRemainingMines()));
-        Tile[][] tileField = boardHandler.getBoard();
-        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
-            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
-                tilePane.getChildren()
-                        .add(tileField[rowIndex][columnIndex].getImageView());
-            }
-        }
-    }
-
     public Text getRemainingMinesText() {
         return remainingMinesText;
     }
@@ -56,11 +41,7 @@ public abstract class GameController {
 
     @FXML
     public void restartButtonOnClicked() {
-        gameModel.start();
-    }
-
-    public GameModel getGameModel() {
-        return gameModel;
+        gameModel.startGame();
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -102,6 +83,11 @@ public abstract class GameController {
     public void turnMediaOn() {
         AudioManager.continueMediaPlayer();
     }
+
+    public TilePane getTilePane() {
+        return tilePane;
+    }
 }
+
 
 
