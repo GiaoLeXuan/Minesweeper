@@ -5,9 +5,7 @@ import javafx.scene.media.MediaPlayer;
 
 public class WinNotiController {
 
-	private static MediaPlayer mediaPlayer;	
 	private GameModel gameModel;
-	private GameController gameController;
 
 	public void setGameModel(GameModel gameModel) {
 		this.gameModel = gameModel;
@@ -15,7 +13,7 @@ public class WinNotiController {
 
 	public static void playWinMusic() {
 		Media music = new Media(MediaHandler.getMediaPath("win_sound.mp3"));
-		mediaPlayer = new MediaPlayer(music);
+		MediaPlayer mediaPlayer = new MediaPlayer(music);
 		mediaPlayer.play();
 	}
 	
@@ -24,28 +22,24 @@ public class WinNotiController {
 	}
 	
 	public void restartGame() {
-		gameController = gameModel.getGameController();
-		
+		GameController gameController = gameModel.getGameController();
 		if(gameController instanceof EasyGameController) {
 			SceneManager.switchScene("easy-mode.fxml");
-			gameModel.start();
 		}
-		
+
 		if(gameController instanceof MediumGameController) {
 			SceneManager.switchScene("medium-mode.fxml");
-			gameModel.start();
 		}
-		
+
 		if(gameController instanceof HardGameController) {
 			SceneManager.switchScene("hard-mode.fxml");
-			gameModel.start();
 		}
-		
+
 	}
 
 	public void viewRecord() {
 	    if (gameModel != null) {
-	        switch (gameModel.getBoardHandler().getColumns()) {
+	        switch (gameModel.getColumns()) {
 	            case EasyGameModel.COLUMNS:
 	                SceneManager.switchScene("easy-high-score.fxml");
 	                break;

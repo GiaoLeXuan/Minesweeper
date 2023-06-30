@@ -31,9 +31,6 @@ public class StartMenuController {
     
     public void modeOnClicked(String fxmlFileName) {
         SceneManager.switchScene(fxmlFileName);
-        GameController mediumGameController =
-                SceneManager.getFxmlLoader().getController();
-        mediumGameController.getGameModel().start();
     }
     
     public void helpOnClicked() {

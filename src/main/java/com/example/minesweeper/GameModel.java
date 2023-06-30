@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.TilePane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
@@ -17,7 +18,6 @@ public abstract class GameModel {
     private final GameController gameController;
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler = new RecordHandler();
-    private BoardHandler boardHandler;
     private MediaPlayer mediaPlayer;
 
     
@@ -29,6 +29,7 @@ public abstract class GameModel {
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
         initializeMedia();
+        start();
     }
 
 	public void start() {
@@ -37,7 +38,17 @@ public abstract class GameModel {
 
     protected void initialize() {
         setGameState(GameState.RUNNING);
-        setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
+        BoardHandler boardHandler = new BoardHandler(rows, columns, numberOfMines, this);
+        TilePane tilePane = gameController.getTilePane();
+        tilePane.getChildren().clear();
+        gameController.getRemainingMinesText().setText(String.valueOf(boardHandler.getRemainingMines()));
+        Tile[][] tileField = boardHandler.getBoard();
+        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
+            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
+                tilePane.getChildren()
+                        .add(tileField[rowIndex][columnIndex].getImageView());
+            }
+        }
         timeCounter.initialize();
     }
 
@@ -70,8 +81,9 @@ public abstract class GameModel {
             if (gameState == GameState.WON) {
                 handleWonState();
             }
-            else
+            else {
                 handleLoseState();
+            }
         }
     }
    
@@ -81,7 +93,7 @@ public abstract class GameModel {
             String winScene = "lose.fxml";
             Parent root = FXMLLoader.load(getClass().getResource(winScene));
             SceneManager.switchScene(winScene);
-            LoseNotiController loseNotiController = (LoseNotiController) SceneManager.getFxmlLoader().getController();
+            LoseNotiController loseNotiController = SceneManager.getFxmlLoader().getController();
             if (loseNotiController != null) {
             	loseNotiController.setGameModel(this);
             	loseNotiController.playLoseMusic();
@@ -94,45 +106,25 @@ public abstract class GameModel {
 	private void handleWonState() {
         recordHandler.updateRecords(this, timeCounter.getElapsedTime());
         stopMedia();
-
-        try {
-            String winScene = "win.fxml";
-            Parent root = FXMLLoader.load(getClass().getResource(winScene));
-            SceneManager.switchScene(winScene);
-            WinNotiController winNotiController = (WinNotiController) SceneManager.getFxmlLoader().getController();
-            if (winNotiController != null) {
-                winNotiController.setGameModel(this);
-                WinNotiController.playWinMusic();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        SceneManager.switchScene("win.fxml");
+        WinNotiController winNotiController = SceneManager.getFxmlLoader().getController();
+        if (winNotiController != null) {
+            winNotiController.setGameModel(this);
+            WinNotiController.playWinMusic();
         }
     }
-    
-	private void restartGame() {
-    	gameController.restartButtonOnClicked();
-	}
-    
+
     private void setFaceImageCorrespondingTo(GameState gameState) {
         getGameController().getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()
                         .getFaceImageMap().get(gameState)));
     }
 
-    public BoardHandler getBoardHandler() {
-        return boardHandler;
-    }
-
-    public void setBoardHandler(BoardHandler boardHandler) {
-        this.boardHandler = boardHandler;
-        gameController.addTileFieldToTilePane();
-    }
-
     public TimeCounter getTimeCounter() {
         return timeCounter;
     }
-    
-    public MediaPlayer getMediaPlayer() {
-		return mediaPlayer;
-	}
+
+    public int getColumns() {
+        return columns;
+    }
 }

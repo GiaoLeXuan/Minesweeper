@@ -10,7 +10,7 @@ public class RecordHandler {
 
     public void updateRecords(GameModel gameModel, int elapsedTime) {
         String fileName = "";
-        switch (gameModel.getBoardHandler().getColumns()) {
+        switch (gameModel.getColumns()) {
             case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
             case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
             case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
