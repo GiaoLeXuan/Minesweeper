@@ -67,12 +67,12 @@ public abstract class GameController {
     public Text getTimeCounterText() {
         return timeCounterText;
     }
-    
+
     @FXML
     public void backToMenu() {
-    	SceneManager.switchScene("start-menu.fxml");
+        SceneManager.switchScene("start-menu.fxml");
     }
-    
+
     public void helpOnClicked() {
         String rules = """
                 Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không chạm vào bất kỳ ô nào có bom.
@@ -84,21 +84,20 @@ public abstract class GameController {
                 - Khi bạn đã mở tất cả các ô không có bom, bạn thắng.
 
                 Chúc may mắn!""";
-        
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
         alert.setContentText(rules);
         alert.showAndWait();
     }
-    
-    
-    public void stopMedia() {
-    	getGameModel().stopMedia();
+
+    public void turnMediaOff() {
+        MediaManager.pauseMediaPlayer();
     }
-    
-    public void continueMedia() {
-    	getGameModel().continueMedia();
+
+    public void turnMediaOn() {
+        MediaManager.continueMediaPlayer();
     }
 }
 

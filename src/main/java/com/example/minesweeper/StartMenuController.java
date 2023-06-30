@@ -5,6 +5,10 @@ import javafx.scene.control.Alert.AlertType;
 
 public class StartMenuController {
 
+    public void initialize() {
+        MediaManager.playMedia(MinesweeperMedia.MAIN_THEME);
+    }
+
     public void easyModeOnClicked() {
         modeOnClicked("easy-mode.fxml");
     }

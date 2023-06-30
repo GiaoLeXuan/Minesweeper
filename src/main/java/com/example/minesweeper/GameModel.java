@@ -1,28 +1,20 @@
 package com.example.minesweeper;
 
-import java.io.IOException;
-import java.util.List;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.DialogPane;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
-import javafx.util.Duration;
+
+import java.io.IOException;
+import java.util.List;
 
 public abstract class GameModel {
 
@@ -33,16 +25,14 @@ public abstract class GameModel {
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler = new RecordHandler();
     private BoardHandler boardHandler;
-    private MediaPlayer mediaPlayer;
-    
-	public GameModel(GameController gameController, int rows, int columns,
+
+    public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
-        initializeMedia();
     }
 
     public void start() {
@@ -55,24 +45,6 @@ public abstract class GameModel {
         timeCounter.initialize();
     }
 
-    private void initializeMedia() {
-        Media mainTheme = new Media(MediaHandler.getMediaPath("mixkit-feeling-happy-5.mp3"));
-        mediaPlayer = new MediaPlayer(mainTheme);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setOnEndOfMedia(() -> {
-            mediaPlayer.seek(Duration.ZERO);
-            mediaPlayer.play();
-        });
-    }
-    
-    public void stopMedia() {
-    	mediaPlayer.pause();
-    }
-    
-    public void continueMedia() {
-    	mediaPlayer.play();
-    }
-
     public GameController getGameController() {
         return gameController;
     }
@@ -83,20 +55,19 @@ public abstract class GameModel {
             timeCounter.stop();
             if (gameState == GameState.WON) {
                 handleWonState();
-            }
-            else
-            	notifyOnLosing();
+            } else
+                notifyOnLosing();
         }
     }
 
-    private void handleWonState() {      
+    private void handleWonState() {
         recordHandler.updateRecords(this, timeCounter.getElapsedTime());
         notifyOnWinning(timeCounter.getElapsedTime());
     }
 
     private void notifyOnWinning(int elapsedTime) {
         String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
-        Alert alert = new Alert(AlertType.INFORMATION);      
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setResizable(false);
         alert.setTitle("Congratulations!");
         alert.setHeaderText(null);
@@ -130,13 +101,13 @@ public abstract class GameModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         // Set cell value factories for rank and time columns
         rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         highscoreTableView.setItems(highscoreList);
         highscoreTableView.setPrefHeight(150);
-        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vbox.getChildren().add(highscoreTableView);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.setContent(vbox);
@@ -154,10 +125,10 @@ public abstract class GameModel {
         dialogPane.setExpandableContent(restartButton);
         alert.showAndWait();
     }
-    
-        private void notifyOnLosing() {
+
+    private void notifyOnLosing() {
         String message = "Oh no! You hit the mine.";
-        Alert alert = new Alert(AlertType.CONFIRMATION);      
+        Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setResizable(false);
         alert.setTitle("Game Over");
         alert.setHeaderText(null);
@@ -191,13 +162,13 @@ public abstract class GameModel {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+
         // Set cell value factories for rank and time columns
         rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
         timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
         highscoreTableView.setItems(highscoreList);
         highscoreTableView.setPrefHeight(150);
-        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         vbox.getChildren().add(highscoreTableView);
         DialogPane dialogPane = alert.getDialogPane();
         dialogPane.setContent(vbox);
@@ -215,26 +186,25 @@ public abstract class GameModel {
         dialogPane.setExpandableContent(restartButton);
         alert.showAndWait();
     }
-  
+
     private List<Integer> getTopHighscoresFromFile() throws IOException {
-    	String fileName = "";
-    	String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
-    	
-    	switch (boardHandler.getColumns()) {
-        	case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
-        	case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
-        	case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
-    	}
-    	
-        String filePath = pathOfRecordFolder + fileName;          
+        String fileName = "";
+        String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
+
+        switch (boardHandler.getColumns()) {
+            case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
+            case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
+            case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
+        }
+
+        String filePath = pathOfRecordFolder + fileName;
         return recordHandler.loadRecordsFromFile(filePath);
     }
-    
-	private void restartGame() {
-    	gameController.restartButtonOnClicked();
-	}
-    
-    
+
+    private void restartGame() {
+        gameController.restartButtonOnClicked();
+    }
+
 
     private void setFaceImageCorrespondingTo(GameState gameState) {
         getGameController().getRestartButton()
@@ -254,8 +224,5 @@ public abstract class GameModel {
     public TimeCounter getTimeCounter() {
         return timeCounter;
     }
-    
-    public MediaPlayer getMediaPlayer() {
-		return mediaPlayer;
-	}
+
 }
