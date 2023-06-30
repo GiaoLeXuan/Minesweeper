@@ -67,7 +67,8 @@ public abstract class GameController {
     public Text getTimeCounterText() {
         return timeCounterText;
     }
-      
+    
+    @FXML
     public void backToMenu() {
     	SceneManager.switchScene("start-menu.fxml");
     }
@@ -89,6 +90,15 @@ public abstract class GameController {
         alert.setHeaderText(null);
         alert.setContentText(rules);
         alert.showAndWait();
+    }
+    
+    
+    public void stopMedia() {
+    	getGameModel().stopMedia();
+    }
+    
+    public void continueMedia() {
+    	getGameModel().continueMedia();
     }
 }
 

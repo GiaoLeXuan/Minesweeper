@@ -34,8 +34,8 @@ public abstract class GameModel {
     private final RecordHandler recordHandler = new RecordHandler();
     private BoardHandler boardHandler;
     private MediaPlayer mediaPlayer;
-
-    public GameModel(GameController gameController, int rows, int columns,
+    
+	public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.gameController = gameController;
         this.rows = rows;
@@ -64,6 +64,14 @@ public abstract class GameModel {
             mediaPlayer.play();
         });
     }
+    
+    public void stopMedia() {
+    	mediaPlayer.pause();
+    }
+    
+    public void continueMedia() {
+    	mediaPlayer.play();
+    }
 
     public GameController getGameController() {
         return gameController;
@@ -76,6 +84,8 @@ public abstract class GameModel {
             if (gameState == GameState.WON) {
                 handleWonState();
             }
+            else
+            	notifyOnLosing();
         }
     }
 
@@ -86,7 +96,69 @@ public abstract class GameModel {
 
     private void notifyOnWinning(int elapsedTime) {
         String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
-        Alert alert = new Alert(AlertType.INFORMATION);
+        Alert alert = new Alert(AlertType.INFORMATION);      
+        alert.setResizable(false);
+        alert.setTitle("Congratulations!");
+        alert.setHeaderText(null);
+        alert.initModality(Modality.NONE);
+        String trophyImagePath = getClass().getResource("/com/example/minesweeper/images/trophy.png").toExternalForm();
+        Image trophyImage = new Image(trophyImagePath);
+        ImageView trophyImageView = new ImageView(trophyImage);
+        trophyImageView.setFitWidth(48);
+        trophyImageView.setFitHeight(48);
+        alert.setGraphic(trophyImageView);
+        VBox vbox = new VBox(10);
+        vbox.setPadding(new Insets(10));
+        Label messageLabel = new Label(message);
+        vbox.getChildren().add(messageLabel);
+        Label highscoreLabel = new Label("Top 5 Highscores:");
+        vbox.getChildren().add(highscoreLabel);
+        TableView<Record> highscoreTableView = new TableView<>();
+        TableColumn<Record, Integer> rankColumn = new TableColumn<>("Rank");
+        TableColumn<Record, String> timeColumn = new TableColumn<>("Time");
+        highscoreTableView.getColumns().addAll(rankColumn, timeColumn);
+
+        // Create a list of HighScore objects
+        ObservableList<Record> highscoreList = FXCollections.observableArrayList();
+        List<Integer> highscores;
+        try {
+            highscores = getTopHighscoresFromFile();
+            for (int i = 0; i < highscores.size(); i++) {
+                Record entry = new Record(i + 1, String.valueOf(highscores.get(i)));
+                highscoreList.add(entry);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        // Set cell value factories for rank and time columns
+        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        highscoreTableView.setItems(highscoreList);
+        highscoreTableView.setPrefHeight(150);
+        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY); 
+        vbox.getChildren().add(highscoreTableView);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.setContent(vbox);
+        Button restartButton = new Button("Restart");
+        restartButton.setOnAction(event -> {
+            restartGame();
+            alert.close();
+        });
+        dialogPane.getButtonTypes().clear();
+        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
+        dialogPane.setExpandableContent(null);
+        dialogPane.setPrefWidth(400);
+        Node closeButton = dialogPane.lookupButton(ButtonType.CLOSE);
+        closeButton.setVisible(false);
+        dialogPane.setExpandableContent(restartButton);
+        alert.showAndWait();
+    }
+    
+        private void notifyOnLosing() {
+        String message = "Oh no! You hit the mine.";
+        Alert alert = new Alert(AlertType.CONFIRMATION);      
+        alert.setResizable(false);
         alert.setTitle("Game Over");
         alert.setHeaderText(null);
         alert.initModality(Modality.NONE);
@@ -182,4 +254,8 @@ public abstract class GameModel {
     public TimeCounter getTimeCounter() {
         return timeCounter;
     }
+    
+    public MediaPlayer getMediaPlayer() {
+		return mediaPlayer;
+	}
 }
