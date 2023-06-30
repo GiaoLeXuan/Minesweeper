@@ -1,12 +1,16 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
+import com.example.minesweeper.media.AudioManager;
+import com.example.minesweeper.media.Audio;
+import com.example.minesweeper.scene.GameController;
+import com.example.minesweeper.scene.SceneManager;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class StartMenuController {
 
     public void initialize() {
-        MediaManager.playMedia(MinesweeperMedia.MAIN_THEME);
+        AudioManager.playMedia(Audio.MAIN_THEME);
     }
 
     public void easyModeOnClicked() {
@@ -61,16 +65,16 @@ public class StartMenuController {
     
     public void aboutOnClicked() {
     	String about = """
-    			MINESWEEPER - Bài tập lớn học phần Lập trình hướng đối tượng IT3100
+				MINESWEEPER - Bài tập lớn học phần Lập trình hướng đối tượng IT3100
     			
-    			2023 - Kì 2022.2
+				2023 - Kì 2022.2
     			
-    			Được thực hiện bởi:
-    			Lê Xuân Giao - 20210290
-    			Nguyễn Hữu Đức - 20215353
-    			Lương Thanh Tùng - 20215508
-    			Ngô Văn Tân - 20210769
-    			""";
+				Được thực hiện bởi:
+				Lê Xuân Giao - 20210290
+				Nguyễn Hữu Đức - 20215353
+				Lương Thanh Tùng - 20215508
+				Ngô Văn Tân - 20210769
+				""";
     	
     	Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper");

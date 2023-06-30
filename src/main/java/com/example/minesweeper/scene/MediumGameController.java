@@ -1,6 +1,6 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
-public class MediumGameController extends GameController{
+public class MediumGameController extends GameController {
     @Override
     public void initializeGameModel() {
         setGameModel(new MediumGameModel(this));

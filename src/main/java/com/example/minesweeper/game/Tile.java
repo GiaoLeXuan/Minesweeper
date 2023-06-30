@@ -1,4 +1,4 @@
-package com.example.minesweeper;
+package com.example.minesweeper.game;
 
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;

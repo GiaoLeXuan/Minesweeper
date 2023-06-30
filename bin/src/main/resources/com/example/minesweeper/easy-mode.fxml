@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Text?>
 <AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.minesweeper.EasyGameController">
+            fx:controller="com.example.minesweeper.scene.EasyGameController">
     <VBox>
         <MenuBar>
             <Menu mnemonicParsing="false" text="File">

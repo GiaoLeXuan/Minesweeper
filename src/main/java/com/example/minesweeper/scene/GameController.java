@@ -1,5 +1,8 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
+import com.example.minesweeper.game.BoardHandler;
+import com.example.minesweeper.game.Tile;
+import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -93,11 +96,11 @@ public abstract class GameController {
     }
 
     public void turnMediaOff() {
-        MediaManager.pauseMediaPlayer();
+        AudioManager.pauseMediaPlayer();
     }
 
     public void turnMediaOn() {
-        MediaManager.continueMediaPlayer();
+        AudioManager.continueMediaPlayer();
     }
 }
 

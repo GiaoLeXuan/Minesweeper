@@ -1,4 +1,6 @@
-package com.example.minesweeper;
+package com.example.minesweeper.game;
+
+import com.example.minesweeper.media.ImageHandler;
 
 public enum TileState {
     EXPOSED("exposed.png"),

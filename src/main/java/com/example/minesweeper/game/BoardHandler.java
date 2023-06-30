@@ -1,12 +1,13 @@
-package com.example.minesweeper;
+package com.example.minesweeper.game;
 
+import com.example.minesweeper.game.GameState;
+import com.example.minesweeper.game.Tile;
+import com.example.minesweeper.game.TileState;
+import com.example.minesweeper.scene.GameModel;
 import javafx.scene.input.MouseButton;
 
-import java.io.*;
 import java.security.SecureRandom;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 

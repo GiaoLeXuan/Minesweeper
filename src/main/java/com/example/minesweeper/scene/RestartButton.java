@@ -1,5 +1,6 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
+import com.example.minesweeper.game.GameState;
 import javafx.scene.image.Image;
 
 import java.util.HashMap;

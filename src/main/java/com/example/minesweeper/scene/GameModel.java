@@ -1,5 +1,7 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
+import com.example.minesweeper.game.*;
+import com.example.minesweeper.game.Record;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -10,7 +12,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
-import javafx.scene.media.MediaPlayer;
 import javafx.stage.Modality;
 
 import java.io.IOException;

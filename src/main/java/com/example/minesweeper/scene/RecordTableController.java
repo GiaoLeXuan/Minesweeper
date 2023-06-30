@@ -1,5 +1,6 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
+import com.example.minesweeper.game.HighScore;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;

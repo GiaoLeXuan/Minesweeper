@@ -1,4 +1,4 @@
-package com.example.minesweeper;
+package com.example.minesweeper.scene;
 
 public class EasyGameController extends GameController {
     @Override

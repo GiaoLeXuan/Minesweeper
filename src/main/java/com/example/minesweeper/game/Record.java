@@ -1,4 +1,4 @@
-package com.example.minesweeper;
+package com.example.minesweeper.game;
 
 public class Record {
 	private int rank;

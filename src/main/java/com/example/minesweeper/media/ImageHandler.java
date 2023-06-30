@@ -1,4 +1,6 @@
-package com.example.minesweeper;
+package com.example.minesweeper.media;
+
+import com.example.minesweeper.MinesweeperApplication;
 
 public class ImageHandler {
     private static final String pathToImages = "images/";

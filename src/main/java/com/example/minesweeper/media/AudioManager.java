@@ -1,23 +1,24 @@
-package com.example.minesweeper;
+package com.example.minesweeper.media;
 
+import com.example.minesweeper.MinesweeperApplication;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-public class MediaManager {
+public class AudioManager {
 
     private static final String pathToMedia = "media/";
-    private static final MediaManager instance = new MediaManager();
+    private static final AudioManager instance = new AudioManager();
     private static MediaPlayer mediaPlayer;
 
-    private MediaManager() {
+    private AudioManager() {
     }
 
-    public static void playMedia(MinesweeperMedia minesweeperMedia) {
+    public static void playMedia(Audio audio) {
         if (mediaPlayer != null) {
             mediaPlayer.dispose();
         }
-        Media media = new Media(getMediaPath(minesweeperMedia.getFileName()));
+        Media media = new Media(getMediaPath(audio.getFileName()));
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
         mediaPlayer.setOnEndOfMedia(() -> {

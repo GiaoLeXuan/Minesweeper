@@ -1,4 +1,9 @@
-package com.example.minesweeper;
+package com.example.minesweeper.game;
+
+import com.example.minesweeper.scene.EasyGameModel;
+import com.example.minesweeper.scene.GameModel;
+import com.example.minesweeper.scene.HardGameModel;
+import com.example.minesweeper.scene.MediumGameModel;
 
 import java.io.*;
 import java.util.ArrayList;
