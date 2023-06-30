@@ -36,13 +36,23 @@ public abstract class GameModel {
         timeCounter = new TimeCounter(this);
     }
 
-    public void start() {
+	public void start() {
         initialize();
     }
 
     protected void initialize() {
         setGameState(GameState.RUNNING);
-        setBoardHandler(new BoardHandler(rows, columns, numberOfMines, this));
+        BoardHandler boardHandler = new BoardHandler(rows, columns, numberOfMines, this);
+        TilePane tilePane = gameController.getTilePane();
+        tilePane.getChildren().clear();
+        gameController.getRemainingMinesText().setText(String.valueOf(boardHandler.getRemainingMines()));
+        Tile[][] tileField = boardHandler.getBoard();
+        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
+            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
+                tilePane.getChildren()
+                        .add(tileField[rowIndex][columnIndex].getImageView());
+            }
+        }
         timeCounter.initialize();
     }
 
@@ -211,15 +221,6 @@ public abstract class GameModel {
         getGameController().getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()
                         .getFaceImageMap().get(gameState)));
-    }
-
-    public BoardHandler getBoardHandler() {
-        return boardHandler;
-    }
-
-    public void setBoardHandler(BoardHandler boardHandler) {
-        this.boardHandler = boardHandler;
-        gameController.addTileFieldToTilePane();
     }
 
     public TimeCounter getTimeCounter() {

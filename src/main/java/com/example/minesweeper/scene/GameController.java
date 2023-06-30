@@ -33,19 +33,6 @@ public abstract class GameController {
 
     public abstract void initializeGameModel();
 
-    public void addTileFieldToTilePane() {
-        tilePane.getChildren().clear();
-        BoardHandler boardHandler = gameModel.getBoardHandler();
-        remainingMinesText.setText(String.valueOf(boardHandler.getRemainingMines()));
-        Tile[][] tileField = boardHandler.getBoard();
-        for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
-            for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
-                tilePane.getChildren()
-                        .add(tileField[rowIndex][columnIndex].getImageView());
-            }
-        }
-    }
-
     public Text getRemainingMinesText() {
         return remainingMinesText;
     }
@@ -101,6 +88,10 @@ public abstract class GameController {
 
     public void turnMediaOn() {
         AudioManager.continueMediaPlayer();
+    }
+
+    public TilePane getTilePane() {
+        return tilePane;
     }
 }
 
