@@ -12,15 +12,15 @@ public class StartMenuController {
     }
 
     public void easyModeOnClicked() {
-        modeOnClicked("easy-mode.fxml");
+        SceneManager.switchScene("easy-mode.fxml");
     }
 
     public void mediumModeOnClicked() {
-        modeOnClicked("medium-mode.fxml");
+        SceneManager.switchScene("medium-mode.fxml");
     }
 
     public void hardModeOnClicked() {
-        modeOnClicked("hard-mode.fxml");
+        SceneManager.switchScene("hard-mode.fxml");
     }
 
     public void easyHighScoreOnClicked() {
@@ -33,10 +33,6 @@ public class StartMenuController {
 
     public void hardHighScoreOnClicked() {
         SceneManager.switchScene("hard-high-score.fxml");
-    }
-
-    public void modeOnClicked(String fxmlFileName) {
-        SceneManager.switchScene(fxmlFileName);
     }
 
     public void helpOnClicked() {
