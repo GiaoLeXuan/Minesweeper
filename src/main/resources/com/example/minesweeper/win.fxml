@@ -7,19 +7,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="341.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.WinNotiController">
    <children>
       <Label alignment="CENTER" layoutX="63.0" layoutY="24.0" prefHeight="42.0" prefWidth="214.0" text="Congratulations! You won!" textAlignment="JUSTIFY">
          <font>
             <Font name="Baskerville Old Face" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="75.0" layoutY="299.0" mnemonicParsing="false" text="Restart">
+      <Button layoutX="75.0" layoutY="299.0" mnemonicParsing="false" onAction="#restartGame" text="Restart">
          <font>
             <Font name="Baskerville Old Face" size="16.0" />
          </font>
       </Button>
-      <Button layoutX="107.0" layoutY="341.0" mnemonicParsing="false" text="Return to Menu">
+      <Button layoutX="107.0" layoutY="341.0" mnemonicParsing="false" onAction="#backToMenu" text="Return to Menu">
          <font>
             <Font name="Baskerville Old Face" size="16.0" />
          </font>
@@ -29,7 +29,7 @@
             <Image url="@start_menu_images/win1.jpg" />
          </image>
       </ImageView>
-      <Button layoutX="197.0" layoutY="299.0" mnemonicParsing="false" text="Record">
+      <Button layoutX="197.0" layoutY="299.0" mnemonicParsing="false" onAction="#viewRecord" text="Record">
          <font>
             <Font name="Baskerville Old Face" size="16.0" />
          </font>

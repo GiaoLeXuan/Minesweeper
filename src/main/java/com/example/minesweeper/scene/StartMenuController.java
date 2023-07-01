@@ -34,7 +34,6 @@ public class StartMenuController {
     public void hardHighScoreOnClicked() {
         SceneManager.switchScene("hard-high-score.fxml");
     }
-
     public void helpOnClicked() {
         String rules = """
                 Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không chạm vào bất kỳ ô nào có bom.
