@@ -13,7 +13,7 @@
    <children>
       <ImageView fitHeight="409.0" fitWidth="733.0" layoutX="-312.0" layoutY="-7.0">
          <image>
-            <Image url="@start_menu_images/apps.17472.9007199266246757.db625ec8-a024-470e-a413-924515c64b2c.jfif" />
+            <Image url="@start_menu_images/start_menu_background.jfif" />
          </image>
       </ImageView>
       <ImageView fitHeight="132.0" fitWidth="399.0" layoutX="11.0">

@@ -8,9 +8,9 @@ import javafx.scene.text.Text;
 public class WinNotificationController {
 
     @FXML
-    public Text yourTime;
+    public Text yourTimeText;
     @FXML
-    public Text best;
+    public Text bestScoreText;
     private GameModel gameModel;
 
     @FXML
@@ -50,6 +50,14 @@ public class WinNotificationController {
                 case HardGameModel.COLUMNS -> SceneManager.switchScene("hard-high-score.fxml");
             }
         }
+    }
+
+    public Text getYourTimeText() {
+        return yourTimeText;
+    }
+
+    public Text getBestScoreText() {
+        return bestScoreText;
     }
 }
 

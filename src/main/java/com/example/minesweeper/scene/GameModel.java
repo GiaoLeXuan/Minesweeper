@@ -1,9 +1,10 @@
 package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.*;
-import com.example.minesweeper.media.AudioManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
+
+import java.io.IOException;
 
 public abstract class GameModel {
 
@@ -57,7 +58,6 @@ public abstract class GameModel {
             } else {
                 handleLoseState();
             }
-            AudioManager.pauseMediaPlayer();
         }
     }
 
@@ -69,15 +69,33 @@ public abstract class GameModel {
     private void handleLoseState() {
         SceneManager.switchScene("lose.fxml");
         LoseNotificationController loseNotificationController = SceneManager.getFxmlLoader().getController();
-        if (loseNotificationController != null) {
-            loseNotificationController.setGameModel(this);
-        }
+        loseNotificationController.setGameModel(this);
     }
 
     private void displayWinNotification() {
         SceneManager.switchScene("win.fxml");
         WinNotificationController winNotificationController = SceneManager.getFxmlLoader().getController();
         winNotificationController.setGameModel(this);
+        winNotificationController.getYourTimeText().setText(String.valueOf(timeCounter.getElapsedTime()));
+        winNotificationController.getBestScoreText().setText(String.valueOf(getBestRecord()));
+    }
+
+    public int getBestRecord() {
+        String fileName = "";
+        String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
+
+        switch (columns) {
+            case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
+            case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
+            case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
+        }
+
+        String filePath = pathOfRecordFolder + fileName;
+        try {
+            return recordHandler.loadRecordsFromFile(filePath).get(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void setFaceImageCorrespondingTo(GameState gameState) {
