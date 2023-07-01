@@ -26,7 +26,7 @@
                         <ToggleGroup fx:id="sound" />
                     </toggleGroup>
                 </RadioMenuItem>
-                <RadioMenuItem mnemonicParsing="false" onAction="#stopMedia" text="Off" toggleGroup="$sound" />
+                <RadioMenuItem mnemonicParsing="false" onAction="#pauseMedia" text="Off" toggleGroup="$sound" />
             </Menu>
         </MenuBar>
         <HBox alignment="CENTER">

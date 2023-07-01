@@ -1,20 +1,9 @@
 package com.example.minesweeper.scene;
 
-import java.io.IOException;
-import java.util.List;
-
-import com.example.minesweeper.game.BoardHandler;
-import com.example.minesweeper.game.GameState;
-import com.example.minesweeper.game.RecordHandler;
-import com.example.minesweeper.game.Tile;
-import com.example.minesweeper.game.TimeCounter;
+import com.example.minesweeper.game.*;
 import com.example.minesweeper.media.AudioManager;
-
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 
 public abstract class GameModel {
 
@@ -24,21 +13,18 @@ public abstract class GameModel {
     private final GameController gameController;
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler = new RecordHandler();
-    private MediaPlayer mediaPlayer;
 
-    
-	public GameModel(GameController gameController, int rows, int columns,
+    public GameModel(GameController gameController, int rows, int columns,
                      int numberOfMines) {
         this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
-        initializeMedia();
         start();
     }
 
-	public void start() {
+    public void start() {
         initialize();
     }
 
@@ -58,24 +44,6 @@ public abstract class GameModel {
         timeCounter.initialize();
     }
 
-    private void initializeMedia() {
-        Media mainTheme = new Media(AudioManager.getMediaPath("mixkit-feeling-happy-5.mp3"));
-        mediaPlayer = new MediaPlayer(mainTheme);
-        mediaPlayer.setAutoPlay(true);
-        mediaPlayer.setOnEndOfMedia(() -> {
-            mediaPlayer.seek(Duration.ZERO);
-            mediaPlayer.play();
-        });
-    }
-    
-    public void stopMedia() {
-    	mediaPlayer.pause();
-    }
-    
-    public void continueMedia() {
-    	mediaPlayer.play();
-    }
-
     public GameController getGameController() {
         return gameController;
     }
@@ -86,58 +54,32 @@ public abstract class GameModel {
             timeCounter.stop();
             if (gameState == GameState.WON) {
                 handleWonState();
-            }
-            else {
+            } else {
                 handleLoseState();
             }
+            AudioManager.pauseMediaPlayer();
         }
     }
-   
-    private void handleLoseState() {
-    	stopMedia();
-        SceneManager.switchScene("lose.fxml");
-        LoseNotiController loseNotiController = SceneManager.getFxmlLoader().getController();
-        if (loseNotiController != null) {
-            loseNotiController.setGameModel(this);
-            LoseNotiController.playLoseMusic();
-        }
-	}
 
-	private void handleWonState() {
+    private void handleWonState() {
         recordHandler.updateRecords(this, timeCounter.getElapsedTime());
-        stopMedia();
+        displayWinNotification();
+    }
+
+    private void handleLoseState() {
+        SceneManager.switchScene("lose.fxml");
+        LoseNotificationController loseNotificationController = SceneManager.getFxmlLoader().getController();
+        if (loseNotificationController != null) {
+            loseNotificationController.setGameModel(this);
+        }
+    }
+
+    private void displayWinNotification() {
         SceneManager.switchScene("win.fxml");
-        WinNotiController winNotiController = SceneManager.getFxmlLoader().getController();
-        if (winNotiController != null) {
-            winNotiController.setGameModel(this);
-            WinNotiController.playWinMusic();
-            winNotiController.getyourTimeText().setText(String.valueOf(timeCounter.getElapsedTime()));
-            // Get Best Score 
-            try {
-				int bestscore = getTopHighscoresFromFile().get(0);
-	            winNotiController.getBestScoreText().setText(String.valueOf(bestscore));
-	            if (timeCounter.getElapsedTime() == bestscore)
-	            	winNotiController.showRecordBreakAlert();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-        }
+        WinNotificationController winNotificationController = SceneManager.getFxmlLoader().getController();
+        winNotificationController.setGameModel(this);
     }
 
-	private List<Integer> getTopHighscoresFromFile() throws IOException {
-        String fileName = "";
-        String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
-
-        switch (columns) {
-            case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
-            case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
-            case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
-        }
-
-        String filePath = pathOfRecordFolder + fileName;
-        return recordHandler.loadRecordsFromFile(filePath);
-    }
-	
     private void setFaceImageCorrespondingTo(GameState gameState) {
         getGameController().getRestartButton()
                 .setGraphic(new ImageView(RestartButton.getInstance()

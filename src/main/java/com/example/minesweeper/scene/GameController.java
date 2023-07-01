@@ -1,5 +1,7 @@
 package com.example.minesweeper.scene;
 
+import com.example.minesweeper.media.Audio;
+import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -26,6 +28,7 @@ public abstract class GameController {
     @FXML
     public void initialize() {
         initializeGameModel();
+        AudioManager.playAudio(Audio.MAIN_THEME);
     }
 
     public abstract void initializeGameModel();
@@ -43,10 +46,6 @@ public abstract class GameController {
         gameModel.start();
     }
 
-    public GameModel getGameModel() {
-        return gameModel;
-    }
-
     public void setGameModel(GameModel gameModel) {
         this.gameModel = gameModel;
     }
@@ -54,24 +53,23 @@ public abstract class GameController {
     public Text getTimeCounterText() {
         return timeCounterText;
     }
-    
+
     @FXML
     public void backToMenu() {
-    	SceneManager.switchScene("start-menu.fxml");
-    	stopMedia();
+        SceneManager.switchScene("start-menu.fxml");
     }
-    
+
     public void helpOnClicked() {
-    	String rules = """
+        String rules = """
                 Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không mở bất kỳ ô nào có bom.
                 Cách chơi:
                 - Nhấn chuột trái vào một ô để mở. Nếu ô đó có bom, trò chơi kết thúc.
                 - Nếu ô không có bom, số hiển thị trong ô là số lượng bom tại các ô xung quanh ô đó.
                 - Nếu bạn nghi ngờ một ô có bom, nhấn chuột phải để đặt một lá cờ.
-                - Để giành chiến thắng, bạn cần mở tất cả các ô không có bom.      
+                - Để giành chiến thắng, bạn cần mở tất cả các ô không có bom.
                 Chúc may mắn!
                 """;
-        
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
@@ -79,14 +77,14 @@ public abstract class GameController {
         alert.setContentText(rules);
         alert.showAndWait();
     }
-    
-    
-    public void stopMedia() {
-    	getGameModel().stopMedia();
+
+
+    public void pauseMedia() {
+        AudioManager.pauseMediaPlayer();
     }
-    
+
     public void continueMedia() {
-    	getGameModel().continueMedia();
+        AudioManager.continueMediaPlayer();
     }
 
     public TilePane getTilePane() {
