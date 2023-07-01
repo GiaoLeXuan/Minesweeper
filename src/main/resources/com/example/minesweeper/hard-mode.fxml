@@ -21,12 +21,12 @@
                 <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="Return" />
             </Menu>
             <Menu mnemonicParsing="false" text="Sound">
-                <RadioMenuItem mnemonicParsing="false" onAction="#turnMediaOn" selected="true" text="On">
+                <RadioMenuItem mnemonicParsing="false" onAction="#continueMedia" selected="true" text="On">
                     <toggleGroup>
-                        <ToggleGroup fx:id="sound"/>
+                        <ToggleGroup fx:id="sound" />
                     </toggleGroup>
                 </RadioMenuItem>
-                <RadioMenuItem mnemonicParsing="false" onAction="#turnMediaOff" text="Off" toggleGroup="$sound"/>
+                <RadioMenuItem mnemonicParsing="false" onAction="#pauseMedia" text="Off" toggleGroup="$sound" />
             </Menu>
         </MenuBar>
         <HBox alignment="CENTER">

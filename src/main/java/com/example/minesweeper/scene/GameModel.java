@@ -1,22 +1,10 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.game.Record;
 import com.example.minesweeper.game.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.scene.Node;
-import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 
 import java.io.IOException;
-import java.util.List;
 
 public abstract class GameModel {
 
@@ -34,20 +22,15 @@ public abstract class GameModel {
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
-        startGame();
+        start();
     }
 
-    public void startGame() {
+    public void start() {
         initialize();
     }
 
     protected void initialize() {
         setGameState(GameState.RUNNING);
-        initializeBoard();
-        timeCounter.initialize();
-    }
-
-    private void initializeBoard() {
         BoardHandler boardHandler = new BoardHandler(rows, columns, numberOfMines, this);
         TilePane tilePane = gameController.getTilePane();
         tilePane.getChildren().clear();
@@ -55,9 +38,11 @@ public abstract class GameModel {
         Tile[][] tileField = boardHandler.getBoard();
         for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
             for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
-                tilePane.getChildren().add(tileField[rowIndex][columnIndex].getImageView());
+                tilePane.getChildren()
+                        .add(tileField[rowIndex][columnIndex].getImageView());
             }
         }
+        timeCounter.initialize();
     }
 
     public GameController getGameController() {
@@ -70,139 +55,32 @@ public abstract class GameModel {
             timeCounter.stop();
             if (gameState == GameState.WON) {
                 handleWonState();
-            } else
-                notifyOnLosing();
+            } else {
+                handleLoseState();
+            }
         }
     }
 
     private void handleWonState() {
         recordHandler.updateRecords(this, timeCounter.getElapsedTime());
-        notifyOnWinning(timeCounter.getElapsedTime());
+        displayWinNotification();
     }
 
-    private void notifyOnWinning(int elapsedTime) {
-        String message = "Congratulations! You won the game in " + elapsedTime + " seconds.";
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setResizable(false);
-        alert.setTitle("Congratulations!");
-        alert.setHeaderText(null);
-        alert.initModality(Modality.NONE);
-        String trophyImagePath = getClass().getResource("/com/example/minesweeper/images/trophy.png").toExternalForm();
-        Image trophyImage = new Image(trophyImagePath);
-        ImageView trophyImageView = new ImageView(trophyImage);
-        trophyImageView.setFitWidth(48);
-        trophyImageView.setFitHeight(48);
-        alert.setGraphic(trophyImageView);
-        VBox vbox = new VBox(10);
-        vbox.setPadding(new Insets(10));
-        Label messageLabel = new Label(message);
-        vbox.getChildren().add(messageLabel);
-        Label highscoreLabel = new Label("Top 5 Highscores:");
-        vbox.getChildren().add(highscoreLabel);
-        TableView<Record> highscoreTableView = new TableView<>();
-        TableColumn<Record, Integer> rankColumn = new TableColumn<>("Rank");
-        TableColumn<Record, String> timeColumn = new TableColumn<>("Time");
-        highscoreTableView.getColumns().addAll(rankColumn, timeColumn);
-
-        // Create a list of HighScore objects
-        ObservableList<Record> highscoreList = FXCollections.observableArrayList();
-        List<Integer> highscores;
-        try {
-            highscores = getTopHighscoresFromFile();
-            for (int i = 0; i < highscores.size(); i++) {
-                Record entry = new Record(i + 1, String.valueOf(highscores.get(i)));
-                highscoreList.add(entry);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set cell value factories for rank and time columns
-        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        highscoreTableView.setItems(highscoreList);
-        highscoreTableView.setPrefHeight(150);
-        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        vbox.getChildren().add(highscoreTableView);
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.setContent(vbox);
-        Button restartButton = new Button("Restart");
-        restartButton.setOnAction(event -> {
-            restartGame();
-            alert.close();
-        });
-        dialogPane.getButtonTypes().clear();
-        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
-        dialogPane.setExpandableContent(null);
-        dialogPane.setPrefWidth(400);
-        Node closeButton = dialogPane.lookupButton(ButtonType.CLOSE);
-        closeButton.setVisible(false);
-        dialogPane.setExpandableContent(restartButton);
-        alert.showAndWait();
+    private void handleLoseState() {
+        SceneManager.switchScene("lose.fxml");
+        LoseNotificationController loseNotificationController = SceneManager.getFxmlLoader().getController();
+        loseNotificationController.setGameModel(this);
     }
 
-    private void notifyOnLosing() {
-        String message = "Oh no! You hit the mine.";
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setResizable(false);
-        alert.setTitle("Game Over");
-        alert.setHeaderText(null);
-        alert.initModality(Modality.NONE);
-        String trophyImagePath = getClass().getResource("/com/example/minesweeper/images/trophy.png").toExternalForm();
-        Image trophyImage = new Image(trophyImagePath);
-        ImageView trophyImageView = new ImageView(trophyImage);
-        trophyImageView.setFitWidth(48);
-        trophyImageView.setFitHeight(48);
-        alert.setGraphic(trophyImageView);
-        VBox vbox = new VBox(10);
-        vbox.setPadding(new Insets(10));
-        Label messageLabel = new Label(message);
-        vbox.getChildren().add(messageLabel);
-        Label highscoreLabel = new Label("Top 5 Highscores:");
-        vbox.getChildren().add(highscoreLabel);
-        TableView<Record> highscoreTableView = new TableView<>();
-        TableColumn<Record, Integer> rankColumn = new TableColumn<>("Rank");
-        TableColumn<Record, String> timeColumn = new TableColumn<>("Time");
-        highscoreTableView.getColumns().addAll(rankColumn, timeColumn);
-
-        // Create a list of HighScore objects
-        ObservableList<Record> highscoreList = FXCollections.observableArrayList();
-        List<Integer> highscores;
-        try {
-            highscores = getTopHighscoresFromFile();
-            for (int i = 0; i < highscores.size(); i++) {
-                Record entry = new Record(i + 1, String.valueOf(highscores.get(i)));
-                highscoreList.add(entry);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // Set cell value factories for rank and time columns
-        rankColumn.setCellValueFactory(new PropertyValueFactory<>("rank"));
-        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
-        highscoreTableView.setItems(highscoreList);
-        highscoreTableView.setPrefHeight(150);
-        highscoreTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-        vbox.getChildren().add(highscoreTableView);
-        DialogPane dialogPane = alert.getDialogPane();
-        dialogPane.setContent(vbox);
-        Button restartButton = new Button("Restart");
-        restartButton.setOnAction(event -> {
-            restartGame();
-            alert.close();
-        });
-        dialogPane.getButtonTypes().clear();
-        dialogPane.getButtonTypes().add(ButtonType.CLOSE);
-        dialogPane.setExpandableContent(null);
-        dialogPane.setPrefWidth(400);
-        Node closeButton = dialogPane.lookupButton(ButtonType.CLOSE);
-        closeButton.setVisible(false);
-        dialogPane.setExpandableContent(restartButton);
-        alert.showAndWait();
+    private void displayWinNotification() {
+        SceneManager.switchScene("win.fxml");
+        WinNotificationController winNotificationController = SceneManager.getFxmlLoader().getController();
+        winNotificationController.setGameModel(this);
+        winNotificationController.getYourTimeText().setText(String.valueOf(timeCounter.getElapsedTime()));
+        winNotificationController.getBestScoreText().setText(String.valueOf(getBestRecord()));
     }
 
-    private List<Integer> getTopHighscoresFromFile() throws IOException {
+    public int getBestRecord() {
         String fileName = "";
         String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
 
@@ -213,13 +91,12 @@ public abstract class GameModel {
         }
 
         String filePath = pathOfRecordFolder + fileName;
-        return recordHandler.loadRecordsFromFile(filePath);
+        try {
+            return recordHandler.loadRecordsFromFile(filePath).get(0);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
-
-    private void restartGame() {
-        gameController.restartButtonOnClicked();
-    }
-
 
     private void setFaceImageCorrespondingTo(GameState gameState) {
         getGameController().getRestartButton()
