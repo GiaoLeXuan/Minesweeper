@@ -35,26 +35,27 @@ public class StartMenuController {
     
     public void helpOnClicked() {
         String rules = """
-                Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không chạm vào bất kỳ ô nào có bom.
-
+                Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không mở bất kỳ ô nào có bom.
                 Cách chơi:
-                - Bấm vào một ô để mở nó. Nếu ô đó có bom, trò chơi kết thúc.
-                - Nếu ô không có bom, số trên ô hiển thị số lượng bom xung quanh.
-                - Nếu bạn nghi ngờ một ô có bom, bấm chuột phải để đặt một lá cờ.
-                - Khi bạn đã mở tất cả các ô không có bom, bạn thắng.
-
-                Chúc may mắn!""";
+                - Nhấn chuột trái vào một ô để mở. Nếu ô đó có bom, trò chơi kết thúc.
+                - Nếu ô không có bom, số hiển thị trong ô là số lượng bom tại các ô xung quanh ô đó.
+                - Nếu bạn nghi ngờ một ô có bom, nhấn chuột phải để đặt một lá cờ.
+                - Để giành chiến thắng, bạn cần mở tất cả các ô không có bom.  
+                Chúc may mắn!
+                """;
         
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
         alert.setContentText(rules);
+        alert.setHeight(500);
         alert.showAndWait();
     }
     
     public void aboutOnClicked() {
     	String about = """
-    			MINESWEEPER - Bài tập lớn học phần Lập trình hướng đối tượng IT3100
+    			MINESWEEPER
+    			Bài tập lớn học phần Lập trình hướng đối tượng IT3100
     			
     			2023 - Kì 2022.2
     			
