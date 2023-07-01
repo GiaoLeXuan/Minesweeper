@@ -58,6 +58,7 @@ public abstract class GameController {
     @FXML
     public void backToMenu() {
     	SceneManager.switchScene("start-menu.fxml");
+    	stopMedia();
     }
     
     public void helpOnClicked() {

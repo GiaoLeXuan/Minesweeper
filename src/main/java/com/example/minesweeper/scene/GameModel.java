@@ -91,17 +91,24 @@ public abstract class GameModel {
    
     private void handleLoseState() {
     	stopMedia();
-    	try {
-            String winScene = "lose.fxml";
-            Parent root = FXMLLoader.load(getClass().getResource(winScene));
-            SceneManager.switchScene(winScene);
-            LoseNotiController loseNotiController = SceneManager.getFxmlLoader().getController();
-            if (loseNotiController != null) {
-            	loseNotiController.setGameModel(this);
-            	loseNotiController.playLoseMusic();
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+//    	try {
+////            String winScene = "lose.fxml";
+////            Parent root = FXMLLoader.load(getClass().getResource(winScene));
+////            SceneManager.switchScene(winScene);
+//    		SceneManager.switchScene("lose.fxml");
+//            LoseNotiController loseNotiController = SceneManager.getFxmlLoader().getController();
+//            if (loseNotiController != null) {
+//            	loseNotiController.setGameModel(this);
+//            	loseNotiController.playLoseMusic();
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+        SceneManager.switchScene("lose.fxml");
+        LoseNotiController loseNotiController = SceneManager.getFxmlLoader().getController();
+        if (loseNotiController != null) {
+            loseNotiController.setGameModel(this);
+            LoseNotiController.playLoseMusic();
         }
 	}
 
