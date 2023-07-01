@@ -50,7 +50,7 @@
             <Font name="Book Antiqua Bold" size="30.0" />
          </font>
       </Text>
-      <Text fx:id="best" layoutX="199.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="64.80000000000007">
+      <Text fx:id="BestScoreText" layoutX="208.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" wrappingWidth="64.80000000000007">
          <font>
             <Font name="Book Antiqua Bold" size="30.0" />
          </font>

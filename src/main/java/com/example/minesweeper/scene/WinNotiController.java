@@ -1,60 +1,41 @@
 package com.example.minesweeper.scene;
 
+import com.example.minesweeper.media.AudioManager;
+
 import javafx.fxml.FXML;
-import javafx.scene.control.TextField;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Text;
-import javafx.util.Duration;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
-import com.example.minesweeper.game.TimeCounter;
-import com.example.minesweeper.media.*;
 
 public class WinNotiController {
 
 	private GameModel gameModel;
-	
+
 	@FXML
-	public Text yourTime;
-	
+	private Text yourTime;
+
 	@FXML
-	public Text best;
+	private Text BestScoreText;
 	
-//	public void showBest() {
-//		String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
-//		String fileName = "";
-//		
-//		switch (gameModel.getColumns()) {
-//        	case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
-//        	case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
-//        	case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
-//		}
-//		
-//		String filePath = pathOfRecordFolder + fileName;
-//		
-//        BufferedReader reader;
-//		try {
-//			reader = new BufferedReader(new FileReader(filePath));
-//			String line = reader.readLine();
-//			best.setText(line);
-//			System.out.println(best);
-//		} catch (FileNotFoundException e) {
-//			e.printStackTrace();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
+	public Text getyourTimeText() {
+		return yourTime;
+	}
+	
+	public Text getBestScoreText() {
+		return BestScoreText;
+	}
 
 	public void setGameModel(GameModel gameModel) {
 		this.gameModel = gameModel;
 	}
 
+	
+	public GameModel getGameModel() {
+		return gameModel;
+	}
+	
 	public static void playWinMusic() {
 		Media music = new Media(AudioManager.getMediaPath("win_sound.mp3"));
 		MediaPlayer mediaPlayer = new MediaPlayer(music);
@@ -96,5 +77,13 @@ public class WinNotiController {
 	        }
 	    }
 	}
+	
+	public void showRecordBreakAlert() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("Kỷ lục mới!");
+        alert.setHeaderText(null);
+        alert.setContentText("Bạn đã phá kỷ lục với thời gian " + getGameModel().getTimeCounter().getElapsedTime() + "!");
+        alert.showAndWait();
+    }
 }
 
