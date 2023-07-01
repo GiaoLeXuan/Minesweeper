@@ -1,6 +1,5 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -41,7 +40,11 @@ public abstract class GameController {
 
     @FXML
     public void restartButtonOnClicked() {
-        gameModel.startGame();
+        gameModel.start();
+    }
+
+    public GameModel getGameModel() {
+        return gameModel;
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -51,12 +54,12 @@ public abstract class GameController {
     public Text getTimeCounterText() {
         return timeCounterText;
     }
-
+    
     @FXML
     public void backToMenu() {
-        SceneManager.switchScene("start-menu.fxml");
+    	SceneManager.switchScene("start-menu.fxml");
     }
-
+    
     public void helpOnClicked() {
         String rules = """
                 Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không chạm vào bất kỳ ô nào có bom.
@@ -68,26 +71,25 @@ public abstract class GameController {
                 - Khi bạn đã mở tất cả các ô không có bom, bạn thắng.
 
                 Chúc may mắn!""";
-
+        
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
         alert.setContentText(rules);
         alert.showAndWait();
     }
-
-    public void turnMediaOff() {
-        AudioManager.pauseMediaPlayer();
+    
+    
+    public void stopMedia() {
+    	getGameModel().stopMedia();
     }
-
-    public void turnMediaOn() {
-        AudioManager.continueMediaPlayer();
+    
+    public void continueMedia() {
+    	getGameModel().continueMedia();
     }
 
     public TilePane getTilePane() {
         return tilePane;
     }
 }
-
-
 

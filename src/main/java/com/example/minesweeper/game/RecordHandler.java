@@ -1,14 +1,10 @@
 package com.example.minesweeper.game;
 
-import com.example.minesweeper.scene.EasyGameModel;
-import com.example.minesweeper.scene.GameModel;
-import com.example.minesweeper.scene.HardGameModel;
-import com.example.minesweeper.scene.MediumGameModel;
-
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import com.example.minesweeper.scene.*;
 
 public class RecordHandler {
     public static final String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
