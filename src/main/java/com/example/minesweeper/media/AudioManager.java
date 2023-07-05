@@ -12,8 +12,9 @@ public class AudioManager {
     private static final AudioManager instance = new AudioManager();
     private static MediaPlayer mediaPlayer;
 
-    private AudioManager() {
-    }
+    public static boolean isMuted = false;
+
+    private AudioManager() {}
 
     public static void playAudio(Audio audio) {
         if (mediaPlayer != null) {
@@ -39,10 +40,12 @@ public class AudioManager {
 
     public static void pauseMediaPlayer() {
         mediaPlayer.pause();
+        isMuted = true;
     }
 
     public static void continueMediaPlayer() {
         mediaPlayer.play();
+        isMuted = false;
     }
 
 }

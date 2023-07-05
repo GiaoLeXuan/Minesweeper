@@ -10,14 +10,19 @@ import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 public class StartMenuController {
-
-    private boolean isMuted = false;
-
     @FXML
     Button soundButton;
     @FXML
     public void initialize() {
-        AudioManager.playAudio(Audio.MAIN_THEME);
+        initializeSoundButtonGraphic();
+    }
+
+    private void initializeSoundButtonGraphic() {
+        if (AudioManager.isMuted) {
+            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
+        } else {
+            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("speaker.png")));
+        }
     }
 
     public void easyModeOnClicked() {
@@ -89,14 +94,12 @@ public class StartMenuController {
     }
 
     public void speakerOnClicked() {
-        if (!isMuted) {
-            isMuted = true;
-            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
-            AudioManager.pauseMediaPlayer();
-        } else {
-            isMuted = false;
+        if (AudioManager.isMuted) {
             soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("speaker.png")));
             AudioManager.continueMediaPlayer();
+        } else {
+            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
+            AudioManager.pauseMediaPlayer();
         }
     }
 

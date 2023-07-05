@@ -1,11 +1,11 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioMenuItem;
 import javafx.scene.layout.TilePane;
 import javafx.scene.text.Text;
 
@@ -26,9 +26,23 @@ public abstract class GameController {
     private Text timeCounterText;
 
     @FXML
+    private RadioMenuItem soundOnMenuItem;
+
+    @FXML
+    private RadioMenuItem soundOffMenuItem;
+
+    @FXML
     public void initialize() {
         initializeGameModel();
-        AudioManager.playAudio(Audio.MAIN_THEME);
+        initializeSoundMenu();
+    }
+
+    private void initializeSoundMenu() {
+        if(AudioManager.isMuted) {
+            soundOffMenuItem.setSelected(true);
+        } else {
+            soundOnMenuItem.setSelected(true);
+        }
     }
 
     public abstract void initializeGameModel();
@@ -55,7 +69,7 @@ public abstract class GameController {
     }
 
     @FXML
-    public void backToMenu() {
+    public void backToStartMenu() {
         SceneManager.switchScene("start-menu.fxml");
     }
 

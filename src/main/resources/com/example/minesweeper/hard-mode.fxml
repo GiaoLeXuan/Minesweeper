@@ -21,15 +21,15 @@
         <MenuBar>
             <Menu mnemonicParsing="false" text="Game">
                 <MenuItem mnemonicParsing="false" onAction="#helpOnClicked" text="Help" />
-                <MenuItem mnemonicParsing="false" onAction="#backToMenu" text="Return" />
+                <MenuItem mnemonicParsing="false" onAction="#backToStartMenu" text="Return" />
             </Menu>
             <Menu mnemonicParsing="false" text="Sound">
-                <RadioMenuItem mnemonicParsing="false" onAction="#continueMedia" selected="true" text="On">
+                <RadioMenuItem fx:id="soundOnMenuItem" mnemonicParsing="false" onAction="#continueMedia" selected="true" text="On">
                     <toggleGroup>
                         <ToggleGroup fx:id="sound" />
                     </toggleGroup>
                 </RadioMenuItem>
-                <RadioMenuItem mnemonicParsing="false" onAction="#pauseMedia" text="Off" toggleGroup="$sound" />
+                <RadioMenuItem fx:id="soundOffMenuItem" mnemonicParsing="false" onAction="#pauseMedia" text="Off" toggleGroup="$sound" />
             </Menu>
         </MenuBar>
       <HBox alignment="CENTER">
