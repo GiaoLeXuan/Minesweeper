@@ -62,4 +62,8 @@ public class RecordHandler {
             }
         }
     }
+
+    public static String getFilePath(String fileName) {
+        return RecordHandler.pathOfRecordFolder + fileName;
+    }
 }
