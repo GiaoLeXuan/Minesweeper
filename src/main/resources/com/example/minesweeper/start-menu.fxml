@@ -113,5 +113,14 @@
             </Shadow>
          </effect>
       </Button>
+      <Button fx:id="soundButton" contentDisplay="GRAPHIC_ONLY" layoutX="375.0" mnemonicParsing="false" onAction="#speakerOnClicked" prefHeight="38.0" prefWidth="0.0" text="Sound">
+         <graphic>
+            <ImageView fitHeight="30.0" fitWidth="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@images/speaker.png" />
+               </image>
+            </ImageView>
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>

@@ -1,6 +1,7 @@
 package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.*;
+import com.example.minesweeper.media.AudioManager;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
@@ -52,6 +53,7 @@ public abstract class GameModel {
     public void setGameState(GameState gameState) {
         setFaceImageCorrespondingTo(gameState);
         if (gameState != GameState.RUNNING) {
+            AudioManager.pauseMediaPlayer();
             timeCounter.stop();
             if (gameState == GameState.WON) {
                 handleWonState();
