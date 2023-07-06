@@ -6,7 +6,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
-import java.util.List;
 
 public abstract class GameModel {
 

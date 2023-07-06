@@ -5,7 +5,10 @@ import com.example.minesweeper.scene.GameModel;
 import com.example.minesweeper.scene.HardGameModel;
 import com.example.minesweeper.scene.MediumGameModel;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -25,22 +28,19 @@ public class RecordHandler {
         try {
             List<Integer> records = loadRecordsFromFile(filePath);
             records.add(playedTime);
-            for (int i : records) {
-                System.out.print(i + " ");
-            }
-            System.out.println();
             saveRecordsToFile(getBestOfFiveFrom(records), filePath);
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     public List<Integer> loadRecordsFromFile(String filePath) throws IOException {
-            List<Integer> highScores = new ArrayList<>();
-            BufferedReader bufferedReader = new BufferedReader(
-                    new FileReader(filePath));
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
+        List<Integer> highScores = new ArrayList<>();
+        BufferedReader bufferedReader = new BufferedReader(
+                new FileReader(filePath));
+        String line;
+        while ((line = bufferedReader.readLine()) != null) {
             int score = Integer.parseInt(line.trim());
             highScores.add(score);
         }
@@ -57,11 +57,10 @@ public class RecordHandler {
     }
 
     private void saveRecordsToFile(List<Integer> highScores, String filePath) throws IOException {
-        BufferedWriter bufferedWriter = new BufferedWriter(
-                new FileWriter(filePath));
-        for (int score : highScores) {
-            bufferedWriter.write(score);
-            bufferedWriter.newLine();
+        try (FileWriter fileWriter = new FileWriter(filePath)) {
+            for (int score : highScores) {
+                fileWriter.write(score + "\n");
+            }
         }
     }
 }
