@@ -38,7 +38,7 @@ public abstract class GameController {
     }
 
     private void initializeSoundMenu() {
-        if(AudioManager.isMuted) {
+        if(AudioManager.isMute()) {
             soundOffMenuItem.setSelected(true);
         } else {
             soundOnMenuItem.setSelected(true);
@@ -93,12 +93,12 @@ public abstract class GameController {
     }
 
 
-    public void pauseMedia() {
-        AudioManager.pauseMediaPlayer();
+    public void turnAudioOff() {
+        AudioManager.setMute(true);
     }
 
-    public void continueMedia() {
-        AudioManager.continueMediaPlayer();
+    public void turnAudioOn() {
+        AudioManager.setMute(false);
     }
 
     public TilePane getTilePane() {

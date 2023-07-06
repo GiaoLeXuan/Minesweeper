@@ -16,6 +16,7 @@ public class WinNotificationController {
     @FXML
     public void initialize() {
         AudioManager.playAudioClip(Audio.WIN_MUSIC);
+        AudioManager.continueMediaPlayer();
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -39,7 +40,7 @@ public class WinNotificationController {
         if (gameController instanceof HardGameController) {
             SceneManager.switchScene("hard-mode.fxml");
         }
-        if (AudioManager.isMuted) {
+        if (AudioManager.isMute()) {
             AudioManager.continueMediaPlayer();
         }
     }
