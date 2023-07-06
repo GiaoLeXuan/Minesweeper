@@ -14,14 +14,16 @@ public abstract class GameModel {
     private final int numberOfMines;
     private final GameController gameController;
     private final TimeCounter timeCounter;
-    private final RecordHandler recordHandler = new RecordHandler();
+    private final RecordHandler recordHandler;
 
-    public GameModel(GameController gameController, int rows, int columns, int numberOfMines) {
+    public GameModel(GameController gameController, int rows, int columns,
+                     int numberOfMines, String recordFileName) {
         this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         timeCounter = new TimeCounter(this);
+        recordHandler = new RecordHandler(recordFileName);
         start();
     }
 
@@ -65,7 +67,7 @@ public abstract class GameModel {
     }
 
     private void handleWonState() {
-        recordHandler.updateRecords(this, timeCounter.getElapsedTime());
+        recordHandler.updateRecords(timeCounter.getElapsedTime());
         displayWinNotification();
     }
 
@@ -86,14 +88,8 @@ public abstract class GameModel {
     }
 
     public int getBestRecord() {
-        String fileName = switch (columns) {
-            case EasyGameModel.COLUMNS -> "easy_record.txt";
-            case MediumGameModel.COLUMNS -> "medium_record.txt";
-            case HardGameModel.COLUMNS -> "hard_record.txt";
-            default -> "";
-        };
         try {
-            return recordHandler.loadRecordsFromFile(fileName).get(0);
+            return recordHandler.loadRecordsFromFile(recordHandler.getRecordFileName()).get(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

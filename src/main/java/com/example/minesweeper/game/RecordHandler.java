@@ -1,10 +1,5 @@
 package com.example.minesweeper.game;
 
-import com.example.minesweeper.scene.EasyGameModel;
-import com.example.minesweeper.scene.GameModel;
-import com.example.minesweeper.scene.HardGameModel;
-import com.example.minesweeper.scene.MediumGameModel;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,17 +9,22 @@ import java.util.Collections;
 import java.util.List;
 
 public class RecordHandler {
-    public void updateRecords(GameModel gameModel, int elapsedTime) {
-        String fileName = switch (gameModel.getColumns()) {
-            case EasyGameModel.COLUMNS -> "easy_record.txt";
-            case MediumGameModel.COLUMNS -> "medium_record.txt";
-            case HardGameModel.COLUMNS -> "hard_record.txt";
-            default -> "";
-        };
-        progressPlayerPlayedTime(elapsedTime, fileName);
+
+
+    public String getRecordFileName() {
+        return recordFileName;
     }
 
-    private void progressPlayerPlayedTime(int playedTime, String filePath) {
+    private final String recordFileName;
+    public RecordHandler(String recordFileName) {
+        this.recordFileName = recordFileName;
+    }
+
+    public void updateRecords(int elapsedTime) {
+        processPlayerPlayedTime(elapsedTime, recordFileName);
+    }
+
+    private void processPlayerPlayedTime(int playedTime, String filePath) {
         try {
             List<Integer> records = loadRecordsFromFile(filePath);
             records.add(playedTime);

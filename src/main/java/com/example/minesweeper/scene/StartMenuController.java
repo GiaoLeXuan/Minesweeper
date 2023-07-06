@@ -1,5 +1,6 @@
 package com.example.minesweeper.scene;
 
+import com.example.minesweeper.game.RecordFile;
 import com.example.minesweeper.media.AudioManager;
 import com.example.minesweeper.media.ImageHandler;
 import javafx.fxml.FXML;
@@ -14,6 +15,7 @@ import java.io.IOException;
 public class StartMenuController {
     @FXML
     Button soundButton;
+
     @FXML
     public void initialize() {
         initializeSoundButtonGraphic();
@@ -22,23 +24,28 @@ public class StartMenuController {
 
     private void initializeSoundButtonGraphic() {
         if (AudioManager.isMuted) {
-            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
+            soundButton.setGraphic(new ImageView(
+                    ImageHandler.getImagePath("muted_speaker.png")));
         } else {
-            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("speaker.png")));
+            soundButton.setGraphic(
+                    new ImageView(ImageHandler.getImagePath("speaker.png")));
         }
     }
 
     private void initializeRecordFiles() {
-        createFileIfNotExisted("easy_record.txt");
-        createFileIfNotExisted("medium_record.txt");
-        createFileIfNotExisted("hard_record.txt");
+        createFileIfNotExisted(RecordFile.EASY_RECORD.getFilePath());
+        createFileIfNotExisted(RecordFile.MEDIUM_RECORD.getFilePath());
+        createFileIfNotExisted(RecordFile.HARD_RECORD.getFilePath());
     }
 
     private void createFileIfNotExisted(String pathName) {
         File file = new File(pathName);
+        if (file.getParentFile().mkdir()) {
+            System.out.println("Folder created");
+        }
         try {
-            if(file.createNewFile()) {
-                System.out.println("File created successfully");
+            if (file.createNewFile()) {
+                System.out.println("File created");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,23 +63,23 @@ public class StartMenuController {
     public void hardModeOnClicked() {
         modeOnClicked("hard-mode.fxml");
     }
-    
+
     public void easyHighScoreOnClicked() {
-    	SceneManager.switchScene("easy-high-score.fxml");
+        SceneManager.switchScene("easy-high-score.fxml");
     }
-    
+
     public void mediumHighScoreOnClicked() {
         SceneManager.switchScene("medium-high-score.fxml");
     }
-    
+
     public void hardHighScoreOnClicked() {
         SceneManager.switchScene("hard-high-score.fxml");
     }
-    
+
     public void modeOnClicked(String fxmlFileName) {
         SceneManager.switchScene(fxmlFileName);
     }
-    
+
     public void helpOnClicked() {
         String rules = """
                 Minesweeper là một trò chơi giải đố, mục tiêu của bạn là phải tìm ra tất cả các ô không có bom mà không mở bất kỳ ô nào có bom.
@@ -83,7 +90,7 @@ public class StartMenuController {
                 - Để giành chiến thắng, bạn cần mở tất cả các ô không có bom.
                 Chúc may mắn!
                 """;
-        
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper - Luật chơi");
         alert.setHeaderText(null);
@@ -91,22 +98,22 @@ public class StartMenuController {
         alert.setHeight(500);
         alert.showAndWait();
     }
-    
+
     public void aboutOnClicked() {
-    	String about = """
+        String about = """
                 MINESWEEPER
                 Bài tập lớn học phần Lập trình hướng đối tượng IT3100
-    			
+                    			
                 2023 - Kì 2022.2
-    			
+                    			
                 Được thực hiện bởi:
                 Lê Xuân Giao - 20210290
                 Nguyễn Hữu Đức - 20215353
                 Lương Thanh Tùng - 20215508
                 Ngô Văn Tân - 20210769
                 """;
-    	
-    	Alert alert = new Alert(AlertType.INFORMATION);
+
+        Alert alert = new Alert(AlertType.INFORMATION);
         alert.setTitle("Minesweeper");
         alert.setHeaderText(null);
         alert.setContentText(about);
@@ -115,10 +122,12 @@ public class StartMenuController {
 
     public void speakerOnClicked() {
         if (AudioManager.isMuted) {
-            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("speaker.png")));
+            soundButton.setGraphic(
+                    new ImageView(ImageHandler.getImagePath("speaker.png")));
             AudioManager.continueMediaPlayer();
         } else {
-            soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
+            soundButton.setGraphic(new ImageView(
+                    ImageHandler.getImagePath("muted_speaker.png")));
             AudioManager.pauseMediaPlayer();
         }
     }
