@@ -6,6 +6,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
+import java.util.List;
 
 public abstract class GameModel {
 
@@ -16,8 +17,7 @@ public abstract class GameModel {
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler = new RecordHandler();
 
-    public GameModel(GameController gameController, int rows, int columns,
-                     int numberOfMines) {
+    public GameModel(GameController gameController, int rows, int columns, int numberOfMines) {
         this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
@@ -32,15 +32,17 @@ public abstract class GameModel {
 
     protected void initialize() {
         setGameState(GameState.RUNNING);
-        BoardHandler boardHandler = new BoardHandler(rows, columns, numberOfMines, this);
+        BoardHandler boardHandler = new BoardHandler(rows, columns,
+                numberOfMines, this);
         TilePane tilePane = gameController.getTilePane();
         tilePane.getChildren().clear();
-        gameController.getRemainingMinesText().setText(String.valueOf(boardHandler.getRemainingMines()));
+        gameController.getRemainingMinesText().setText(
+                String.valueOf(boardHandler.getRemainingMines()));
         Tile[][] tileField = boardHandler.getBoard();
         for (int rowIndex = 0; rowIndex < boardHandler.getRows(); rowIndex++) {
             for (int columnIndex = 0; columnIndex < boardHandler.getColumns(); columnIndex++) {
-                tilePane.getChildren()
-                        .add(tileField[rowIndex][columnIndex].getImageView());
+                tilePane.getChildren().add(
+                        tileField[rowIndex][columnIndex].getImageView());
             }
         }
         timeCounter.initialize();
@@ -78,32 +80,29 @@ public abstract class GameModel {
         SceneManager.switchScene("win.fxml");
         WinNotificationController winNotificationController = SceneManager.getFxmlLoader().getController();
         winNotificationController.setGameModel(this);
-        winNotificationController.getYourTimeText().setText(String.valueOf(timeCounter.getElapsedTime()));
-        winNotificationController.getBestScoreText().setText(String.valueOf(getBestRecord()));
+        winNotificationController.getYourTimeText().setText(
+                String.valueOf(timeCounter.getElapsedTime()));
+        winNotificationController.getBestScoreText().setText(
+                String.valueOf(getBestRecord()));
     }
 
     public int getBestRecord() {
-        String fileName = "";
-        String pathOfRecordFolder = "src\\main\\resources\\com\\example\\minesweeper\\records\\";
-
-        switch (columns) {
-            case EasyGameModel.COLUMNS -> fileName = "EasyHighScore.txt";
-            case MediumGameModel.COLUMNS -> fileName = "MediumHighScore.txt";
-            case HardGameModel.COLUMNS -> fileName = "HardHighScore.txt";
-        }
-
-        String filePath = pathOfRecordFolder + fileName;
+        String fileName = switch (columns) {
+            case EasyGameModel.COLUMNS -> "easy_record.txt";
+            case MediumGameModel.COLUMNS -> "medium_record.txt";
+            case HardGameModel.COLUMNS -> "hard_record.txt";
+            default -> "";
+        };
         try {
-            return recordHandler.loadRecordsFromFile(filePath).get(0);
+            return recordHandler.loadRecordsFromFile(fileName).get(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     private void setFaceImageCorrespondingTo(GameState gameState) {
-        getGameController().getRestartButton()
-                .setGraphic(new ImageView(RestartButton.getInstance()
-                        .getFaceImageMap().get(gameState)));
+        getGameController().getRestartButton().setGraphic(new ImageView(
+                RestartButton.getInstance().getFaceImageMap().get(gameState)));
     }
 
     public TimeCounter getTimeCounter() {

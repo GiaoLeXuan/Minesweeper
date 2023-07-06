@@ -34,7 +34,9 @@ public class LoseNotificationController {
         if (gameController instanceof HardGameController) {
             SceneManager.switchScene("hard-mode.fxml");
         }
-
+        if (AudioManager.isMuted) {
+            AudioManager.continueMediaPlayer();
+        }
     }
 
 }

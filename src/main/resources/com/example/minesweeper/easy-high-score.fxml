@@ -15,7 +15,7 @@
             <Image url="@start_menu_images/start_menu_background.jfif" />
          </image>
       </ImageView>
-      <Button layoutX="61.0" layoutY="277.0" mnemonicParsing="false" onAction="#returnToMenu" text="Return to Menu">
+      <Button layoutX="61.0" layoutY="277.0" mnemonicParsing="false" onAction="#returnToStartMenu" text="Return to Menu">
          <font>
             <Font name="Baskerville Old Face" size="16.0" />
          </font></Button>

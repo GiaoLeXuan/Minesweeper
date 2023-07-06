@@ -5,6 +5,6 @@ import com.example.minesweeper.game.RecordHandler;
 public class EasyHighScoreController extends RecordTableController {
 
     public EasyHighScoreController() {
-        super(RecordHandler.getFilePath("EasyHighScore.txt"));
+        super("easy_record.txt");
     }
 }

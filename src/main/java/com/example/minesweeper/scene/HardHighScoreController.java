@@ -1,9 +1,7 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.game.RecordHandler;
-
 public class HardHighScoreController extends RecordTableController {
     public HardHighScoreController() {
-        super(RecordHandler.getFilePath("HardHighScore.txt"));
+        super("hard_record.txt");
     }
 }

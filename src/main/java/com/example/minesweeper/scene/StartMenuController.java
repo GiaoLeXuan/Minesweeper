@@ -1,6 +1,5 @@
 package com.example.minesweeper.scene;
 
-import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
 import com.example.minesweeper.media.ImageHandler;
 import javafx.fxml.FXML;
@@ -9,12 +8,16 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
+import java.io.IOException;
+
 public class StartMenuController {
     @FXML
     Button soundButton;
     @FXML
     public void initialize() {
         initializeSoundButtonGraphic();
+        initializeRecordFiles();
     }
 
     private void initializeSoundButtonGraphic() {
@@ -22,6 +25,23 @@ public class StartMenuController {
             soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("muted_speaker.png")));
         } else {
             soundButton.setGraphic(new ImageView(ImageHandler.getImagePath("speaker.png")));
+        }
+    }
+
+    private void initializeRecordFiles() {
+        createFileIfNotExisted("easy_record.txt");
+        createFileIfNotExisted("medium_record.txt");
+        createFileIfNotExisted("hard_record.txt");
+    }
+
+    private void createFileIfNotExisted(String pathName) {
+        File file = new File(pathName);
+        try {
+            if(file.createNewFile()) {
+                System.out.println("File created successfully");
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
