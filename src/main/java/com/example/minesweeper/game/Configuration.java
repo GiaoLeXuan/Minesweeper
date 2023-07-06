@@ -5,12 +5,12 @@ import com.example.minesweeper.media.AudioManager;
 import java.io.*;
 
 public class Configuration {
+
+    private static final String configFileName = "config.txt";
     public static void loadConfiguration() {
-        File file = new File("config.txt");
+        File file = new File(configFileName);
         try {
-            if (file.createNewFile()) {
-                System.out.println("File created");
-            }
+            file.createNewFile();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -29,12 +29,15 @@ public class Configuration {
     }
 
     public static void saveConfiguration() {
+        File file = new File(configFileName);
+        file.setWritable(true);
         try (BufferedWriter bufferedWriter = new BufferedWriter(
-                new FileWriter("config" + ".txt"))) {
+                new FileWriter(configFileName))) {
             bufferedWriter.write(String.valueOf(AudioManager.isMute()));
             bufferedWriter.newLine();
         } catch(IOException e) {
             throw new RuntimeException(e);
         }
+        file.setReadOnly();
     }
 }

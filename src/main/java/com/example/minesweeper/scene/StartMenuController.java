@@ -40,13 +40,10 @@ public class StartMenuController {
 
     private void createFileIfNotExisted(String pathName) {
         File file = new File(pathName);
-        if (file.getParentFile().mkdir()) {
-            System.out.println("Folder created");
-        }
+        file.getParentFile().mkdir();
         try {
-            if (file.createNewFile()) {
-                System.out.println("File created");
-            }
+            file.createNewFile();
+            file.setWritable(true);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -8,13 +8,14 @@ import java.util.List;
 public class RecordHandler {
 
 
-    public String getRecordFileName() {
-        return recordFileName;
-    }
-
     private final String recordFileName;
+
     public RecordHandler(String recordFileName) {
         this.recordFileName = recordFileName;
+    }
+
+    public String getRecordFileName() {
+        return recordFileName;
     }
 
     public void updateRecords(int elapsedTime) {
@@ -38,8 +39,17 @@ public class RecordHandler {
                 new FileReader(filePath));
         String line;
         while ((line = bufferedReader.readLine()) != null) {
-            int score = Integer.parseInt(line.trim());
-            highScores.add(score);
+            try {
+                int score = Integer.parseInt(line.trim());
+                highScores.add(score);
+            } catch (NumberFormatException e) {
+                File file = new File(filePath);
+                file.setWritable(true);
+                BufferedWriter bufferedWriter =
+                        new BufferedWriter(new FileWriter(filePath));
+                bufferedWriter.write("");
+                file.setReadOnly();
+            }
         }
         return highScores;
     }
@@ -54,12 +64,15 @@ public class RecordHandler {
     }
 
     private void saveRecordsToFile(List<Integer> highScores, String filePath) throws IOException {
-        try (BufferedWriter bufferedWriter =
-                     new BufferedWriter(new FileWriter(filePath))) {
+        File file = new File(filePath);
+        file.setWritable(true);
+        try (BufferedWriter bufferedWriter = new BufferedWriter(
+                new FileWriter(filePath))) {
             for (int score : highScores) {
                 bufferedWriter.write(String.valueOf(score));
                 bufferedWriter.newLine();
             }
         }
+        file.setReadOnly();
     }
 }
