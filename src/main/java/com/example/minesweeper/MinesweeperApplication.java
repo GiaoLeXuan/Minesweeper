@@ -1,5 +1,6 @@
 package com.example.minesweeper;
 
+import com.example.minesweeper.game.Configuration;
 import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
 import com.example.minesweeper.scene.SceneManager;
@@ -14,7 +15,13 @@ public class MinesweeperApplication extends Application {
     @Override
     public void start(Stage stage) {
         AudioManager.playAudio(Audio.MAIN_THEME);
+        Configuration.loadConfiguration();
         SceneManager.setPrimaryStage(stage);
         SceneManager.switchScene("start-menu.fxml");
+    }
+
+    @Override
+    public void stop() {
+        Configuration.saveConfiguration();
     }
 }

@@ -1,9 +1,6 @@
 package com.example.minesweeper.game;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -57,9 +54,11 @@ public class RecordHandler {
     }
 
     private void saveRecordsToFile(List<Integer> highScores, String filePath) throws IOException {
-        try (FileWriter fileWriter = new FileWriter(filePath)) {
+        try (BufferedWriter bufferedWriter =
+                     new BufferedWriter(new FileWriter(filePath))) {
             for (int score : highScores) {
-                fileWriter.write(score + "\n");
+                bufferedWriter.write(String.valueOf(score));
+                bufferedWriter.newLine();
             }
         }
     }
