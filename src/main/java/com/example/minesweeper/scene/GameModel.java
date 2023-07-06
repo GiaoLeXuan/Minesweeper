@@ -2,8 +2,11 @@ package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.*;
 import com.example.minesweeper.media.AudioManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.TilePane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -16,8 +19,7 @@ public abstract class GameModel {
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler;
 
-    public GameModel(GameController gameController, int rows, int columns,
-                     int numberOfMines, String recordFileName) {
+    public GameModel(GameController gameController, int rows, int columns, int numberOfMines, String recordFileName) {
         this.gameController = gameController;
         this.rows = rows;
         this.columns = columns;
@@ -56,13 +58,16 @@ public abstract class GameModel {
     public void setGameState(GameState gameState) {
         setFaceImageCorrespondingTo(gameState);
         if (gameState != GameState.RUNNING) {
-            AudioManager.pauseMediaPlayer();
-            timeCounter.stop();
-            if (gameState == GameState.WON) {
-                handleWonState();
-            } else {
-                handleLoseState();
-            }
+            Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+                timeCounter.stop();
+            }), new KeyFrame(Duration.seconds(2.0), e -> {
+                if (gameState == GameState.WON) {
+                    handleWonState();
+                } else {
+                    handleLoseState();
+                }
+            }));
+            timeline.playFromStart();
         }
     }
 
@@ -89,7 +94,8 @@ public abstract class GameModel {
 
     public int getBestRecord() {
         try {
-            return recordHandler.loadRecordsFromFile(recordHandler.getRecordFileName()).get(0);
+            return recordHandler.loadRecordsFromFile(
+                    recordHandler.getRecordFileName()).get(0);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

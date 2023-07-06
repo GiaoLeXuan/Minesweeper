@@ -2,8 +2,11 @@ package com.example.minesweeper.scene;
 
 import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
+import javafx.util.Duration;
 
 public class WinNotificationController {
 
@@ -15,8 +18,12 @@ public class WinNotificationController {
 
     @FXML
     public void initialize() {
-        AudioManager.playAudioClip(Audio.WIN_MUSIC);
-        AudioManager.continueMediaPlayer();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            AudioManager.pauseMediaPlayer();
+            AudioManager.playAudioClip(Audio.WIN_MUSIC);
+        }), new KeyFrame(Duration.seconds(3.0),
+                e -> AudioManager.continueMediaPlayer()));
+        timeline.playFromStart();
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -48,9 +55,12 @@ public class WinNotificationController {
     public void viewRecord() {
         if (gameModel != null) {
             switch (gameModel.getColumns()) {
-                case EasyGameModel.COLUMNS -> SceneManager.switchScene("easy-high-score.fxml");
-                case MediumGameModel.COLUMNS -> SceneManager.switchScene("medium-high-score.fxml");
-                case HardGameModel.COLUMNS -> SceneManager.switchScene("hard-high-score.fxml");
+                case EasyGameModel.COLUMNS ->
+                        SceneManager.switchScene("easy-high-score.fxml");
+                case MediumGameModel.COLUMNS ->
+                        SceneManager.switchScene("medium-high-score.fxml");
+                case HardGameModel.COLUMNS ->
+                        SceneManager.switchScene("hard-high-score.fxml");
             }
         }
     }

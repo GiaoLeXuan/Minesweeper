@@ -2,15 +2,22 @@ package com.example.minesweeper.scene;
 
 import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
+import javafx.util.Duration;
 
 public class LoseNotificationController {
     private GameModel gameModel;
 
     @FXML
     public void initialize() {
-        AudioManager.playAudioClip(Audio.LOSE_MUSIC);
-        AudioManager.continueMediaPlayer();
+        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
+            AudioManager.pauseMediaPlayer();
+            AudioManager.playAudioClip(Audio.LOSE_MUSIC);
+        }), new KeyFrame(Duration.seconds(3.0),
+                e -> AudioManager.continueMediaPlayer()));
+        timeline.playFromStart();
     }
 
     public void setGameModel(GameModel gameModel) {
