@@ -1,8 +1,7 @@
 package com.example.minesweeper.game;
 
-import com.example.minesweeper.game.GameState;
-import com.example.minesweeper.game.Tile;
-import com.example.minesweeper.game.TileState;
+import com.example.minesweeper.media.Audio;
+import com.example.minesweeper.media.AudioManager;
 import com.example.minesweeper.scene.GameModel;
 import javafx.scene.input.MouseButton;
 
@@ -18,19 +17,18 @@ public class BoardHandler {
     private final int columns;
     private final int numberOfMines;
     private final Random random = new SecureRandom();
-    private int remainingTiles;
+    private int numberOfRemainingTiles;
     private int remainingMines;
     private Tile[][] board;
     private boolean isWaitingFirstTileClicked = true;
 
-    public BoardHandler(int rows, int columns, int numberOfMines,
-                        GameModel gameModel) {
+    public BoardHandler(int rows, int columns, int numberOfMines, GameModel gameModel) {
         this.gameModel = gameModel;
         this.rows = rows;
         this.columns = columns;
         this.numberOfMines = numberOfMines;
         remainingMines = numberOfMines;
-        remainingTiles = rows * columns;
+        numberOfRemainingTiles = rows * columns;
         initializeTileField();
     }
 
@@ -51,9 +49,8 @@ public class BoardHandler {
                     }
                     if (mouseClick.getButton() == MouseButton.SECONDARY) {
                         handleFlag(currentTile);
-                        gameModel.getGameController()
-                                .getRemainingMinesText()
-                                .setText(String.valueOf(remainingMines));
+                        gameModel.getGameController().getRemainingMinesText().setText(
+                                String.valueOf(remainingMines));
                     }
                 });
             }
@@ -64,7 +61,8 @@ public class BoardHandler {
         int minesCreatedCounter = 0;
         while (minesCreatedCounter < numberOfMines) {
             Tile tileToBeInsertedMine = getRandomTile();
-            if (!tileToBeInsertedMine.isMine() && !tileToBeInsertedMine.isNeighbourOf(firstClickedTile)) {
+            if (!tileToBeInsertedMine.isMine() && !tileToBeInsertedMine.isNeighbourOf(
+                    firstClickedTile)) {
                 tileToBeInsertedMine.setMine(true);
                 updateAdjacentTilesOfMine(tileToBeInsertedMine);
                 minesCreatedCounter++;
@@ -137,20 +135,35 @@ public class BoardHandler {
 
     private void doSingleGuess(Tile tile) {
         if (tile.isMine()) {
+            playExplodeSound();
             exposeAllMines();
             gameModel.setGameState(GameState.LOST);
         } else if (tile.isNotExposed()) {
             exposeTile(tile);
-            remainingTiles--;
-            if (remainingTiles == numberOfMines) {
-                gameModel.setGameState(GameState.WON);
-            }
+            updateRemainingTileNumberAndCheckIfWon();
             if (tile.isNoMineAround()) {
-                for (Tile currentTile : getAdjacentTilesOf(tile)) {
-                    if (currentTile.isNotExposed()) {
-                        doSingleGuess(currentTile);
-                    }
-                }
+                OpenAdjacentTilesRecursively(tile);
+            }
+        }
+    }
+
+    private void playExplodeSound() {
+        AudioManager.pauseMediaPlayer();
+        AudioManager.playAudioClip(Audio.EXPLODE_SOUND);
+    }
+
+    private void updateRemainingTileNumberAndCheckIfWon() {
+        numberOfRemainingTiles--;
+        if (numberOfRemainingTiles == numberOfMines) {
+            gameModel.setGameState(GameState.WON);
+            AudioManager.playAudioClip(Audio.WINNING_SHORT_INFORM);
+        }
+    }
+
+    private void OpenAdjacentTilesRecursively(Tile tile) {
+        for (Tile currentTile : getAdjacentTilesOf(tile)) {
+            if (currentTile.isNotExposed()) {
+                doSingleGuess(currentTile);
             }
         }
     }

@@ -6,12 +6,11 @@ import java.io.File;
 
 public enum Audio {
 
-    MAIN_THEME("feeling-happy.mp3"),
+    MAIN_THEME("on_and_on.mp3"),
     EXPLODE_SOUND("small-explode-blast.wav"),
-
-    WIN_MUSIC("win_sound.mp3"),
-
-    LOSE_MUSIC("lose_sound.mp3");
+    WIN_MUSIC("win_music.wav"),
+    LOSE_MUSIC("lose_sound.mp3"),
+    WINNING_SHORT_INFORM("winning_short_inform.wav");
 
     private static final String folderPath = "media/";
 

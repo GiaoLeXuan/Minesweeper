@@ -1,18 +1,16 @@
 package com.example.minesweeper.media;
 
+import javafx.animation.Timeline;
 import javafx.scene.media.AudioClip;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
 public class AudioManager {
-
-
-    private static final AudioManager instance = new AudioManager();
     private static volatile MediaPlayer mediaPlayer;
     private static boolean mute = false;
 
-    private AudioManager() {}
+    private AudioManager(){}
 
     public static boolean isMute() {
         return mute;
@@ -43,10 +41,12 @@ public class AudioManager {
     }
 
     public static void playAudioClip(Audio audio) {
+        mediaPlayer.pause();
         AudioClip audioClip = new AudioClip(audio.getFileResource());
         if (!mute) {
             audioClip.play();
         }
+        mediaPlayer.play();
     }
 
     public static void pauseMediaPlayer() {
@@ -56,5 +56,4 @@ public class AudioManager {
     public static void continueMediaPlayer() {
         mediaPlayer.play();
     }
-
 }

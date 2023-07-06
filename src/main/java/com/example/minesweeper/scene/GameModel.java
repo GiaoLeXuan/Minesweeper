@@ -1,7 +1,6 @@
 package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.*;
-import com.example.minesweeper.media.AudioManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
@@ -59,7 +58,7 @@ public abstract class GameModel {
         setFaceImageCorrespondingTo(gameState);
         if (gameState != GameState.RUNNING) {
             Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-                timeCounter.stop();
+                disableEventToGameplay();
             }), new KeyFrame(Duration.seconds(2.0), e -> {
                 if (gameState == GameState.WON) {
                     handleWonState();
@@ -69,6 +68,12 @@ public abstract class GameModel {
             }));
             timeline.playFromStart();
         }
+    }
+
+    private void disableEventToGameplay() {
+        timeCounter.stop();
+        gameController.getTilePane().setDisable(true);
+        gameController.getRestartButton().setDisable(true);
     }
 
     private void handleWonState() {

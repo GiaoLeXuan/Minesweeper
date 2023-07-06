@@ -36,6 +36,7 @@
       </plugin>
       <plugin>
         <artifactId>maven-shade-plugin</artifactId>
+        <version>3.5.0</version>
         <executions>
           <execution>
             <goals>

@@ -13,7 +13,6 @@ public class LoseNotificationController {
     @FXML
     public void initialize() {
         Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            AudioManager.pauseMediaPlayer();
             AudioManager.playAudioClip(Audio.LOSE_MUSIC);
         }), new KeyFrame(Duration.seconds(3.0),
                 e -> AudioManager.continueMediaPlayer()));
