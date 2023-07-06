@@ -10,6 +10,7 @@ public class LoseNotificationController {
     @FXML
     public void initialize() {
         AudioManager.playAudioClip(Audio.LOSE_MUSIC);
+        AudioManager.continueMediaPlayer();
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -34,9 +35,5 @@ public class LoseNotificationController {
         if (gameController instanceof HardGameController) {
             SceneManager.switchScene("hard-mode.fxml");
         }
-        if (AudioManager.isMuted) {
-            AudioManager.continueMediaPlayer();
-        }
     }
-
 }

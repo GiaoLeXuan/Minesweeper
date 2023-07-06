@@ -23,7 +23,7 @@ public class StartMenuController {
     }
 
     private void initializeSoundButtonGraphic() {
-        if (AudioManager.isMuted) {
+        if (AudioManager.isMute()) {
             soundButton.setGraphic(new ImageView(
                     ImageHandler.getImagePath("muted_speaker.png")));
         } else {
@@ -121,14 +121,14 @@ public class StartMenuController {
     }
 
     public void speakerOnClicked() {
-        if (AudioManager.isMuted) {
+        if (AudioManager.isMute()) {
             soundButton.setGraphic(
                     new ImageView(ImageHandler.getImagePath("speaker.png")));
-            AudioManager.continueMediaPlayer();
+            AudioManager.setMute(false);
         } else {
             soundButton.setGraphic(new ImageView(
                     ImageHandler.getImagePath("muted_speaker.png")));
-            AudioManager.pauseMediaPlayer();
+            AudioManager.setMute(true);
         }
     }
 
