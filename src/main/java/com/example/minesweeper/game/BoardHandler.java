@@ -18,6 +18,7 @@ public class BoardHandler {
     private final int numberOfMines;
     private final Random random = new SecureRandom();
     private int numberOfRemainingTiles;
+    private int countTilesExposedInAGuess = 0;
     private int remainingMines;
     private Tile[][] board;
     private boolean isWaitingFirstTileClicked = true;
@@ -114,11 +115,21 @@ public class BoardHandler {
     }
 
     public void handleUserGuessOn(Tile tile) {
+        countTilesExposedInAGuess = 0;
         if (tile.isNotFlagged()) {
             if (tile.isNotExposed()) {
                 doSingleGuess(tile);
             } else {
                 doMultiGuess(tile);
+            }
+        }
+        if (countTilesExposedInAGuess != 0) {
+            if (countTilesExposedInAGuess == 1) {
+                AudioManager.playAudioClip(Audio.ONE_TILE);
+            } else if (countTilesExposedInAGuess <= 5) {
+                AudioManager.playAudioClip(Audio.MANY_TILES);
+            } else {
+                AudioManager.playAudioClip(Audio.LARGE_TILE_GROUP);
             }
         }
     }
@@ -140,7 +151,7 @@ public class BoardHandler {
             gameModel.setGameState(GameState.LOST);
         } else if (tile.isNotExposed()) {
             exposeTile(tile);
-            updateRemainingTileNumberAndCheckIfWon();
+            checkIfWon();
             if (tile.isNoMineAround()) {
                 OpenAdjacentTilesRecursively(tile);
             }
@@ -152,7 +163,8 @@ public class BoardHandler {
         AudioManager.playAudioClip(Audio.EXPLODE_SOUND);
     }
 
-    private void updateRemainingTileNumberAndCheckIfWon() {
+    private void checkIfWon() {
+        countTilesExposedInAGuess++;
         numberOfRemainingTiles--;
         if (numberOfRemainingTiles == numberOfMines) {
             gameModel.setGameState(GameState.WON);

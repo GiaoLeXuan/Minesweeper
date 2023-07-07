@@ -5,11 +5,14 @@ import com.example.minesweeper.MinesweeperApplication;
 public enum Audio {
 
     MAIN_THEME("on_and_on.mp3"),
-    EXPLODE_SOUND("small-explode-blast.wav"), LOSE_MUSIC("lose_sound.mp3"),
+    EXPLODE_SOUND("small-explode-blast.wav"),
     WINNING_SHORT_INFORM("winning_short_inform.wav"),
     FLAG("clothes-drop.wav"),
     UNFLAG("unflag.wav"),
-    END_GAME_MUSIC ("waiting.mp3");
+    END_GAME_MUSIC ("waiting.mp3"),
+    ONE_TILE("one.mp3"),
+    MANY_TILES("multiple_tiles.mp3"),
+    LARGE_TILE_GROUP("include_blank_tile.mp3");
 
     private static final String folderPath = "media/";
 
@@ -17,10 +20,6 @@ public enum Audio {
 
     Audio(String fileName) {
         this.fileName = fileName;
-    }
-
-    public String getFileName() {
-        return fileName;
     }
 
     public String getFileResource() {
