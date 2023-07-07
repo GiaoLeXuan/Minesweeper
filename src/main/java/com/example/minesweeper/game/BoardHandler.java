@@ -157,6 +157,7 @@ public class BoardHandler {
     private void doSingleGuess(Tile tile) {
         if (tile.isMine()) {
             playExplodeSound();
+            tile.setTileState(TileState.HIT_MINE);
             exposeAllMines();
             gameModel.setGameState(GameState.LOST);
         } else if (tile.isNotExposed()) {
@@ -194,8 +195,8 @@ public class BoardHandler {
         for (int rowIndex = 0; rowIndex < rows; rowIndex++) {
             for (int columnIndex = 0; columnIndex < columns; columnIndex++) {
                 Tile tile = board[rowIndex][columnIndex];
-                if (tile.isMine()) {
-                    tile.setTileState(TileState.HIT_MINE);
+                if (tile.isMine() && tile.getTileState() != TileState.HIT_MINE) {
+                    tile.setTileState(TileState.MINE);
                 }
             }
         }
