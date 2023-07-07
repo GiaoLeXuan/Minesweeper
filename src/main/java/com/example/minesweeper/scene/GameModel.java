@@ -90,9 +90,9 @@ public abstract class GameModel {
     }
 
     private void displayNotification() {
-        SceneManager.switchScene("notify_result.fxml");
-        NotificationController notificationController = SceneManager.getFxmlLoader().getController();
-        notificationController.setGameModel(this);
+        SceneManager.switchScene("result_notification.fxml");
+        ResultNotificationController resultNotificationController = SceneManager.getFxmlLoader().getController();
+        resultNotificationController.setGameModel(this);
         String elapsedTime = switch (gameState) {
             case WON -> String.valueOf(timeCounter.getElapsedTime());
             case LOST -> "__";
@@ -103,8 +103,14 @@ public abstract class GameModel {
             case LOST -> "__";
             default -> "0";
         };
-        notificationController.getYourTimeText().setText((elapsedTime));
-        notificationController.getBestScoreText().setText(bestRecord);
+        String inform = switch (gameState) {
+            case WON -> "Congratulation! You Won!";
+            case LOST -> "Oops! You hit a mine!";
+            default -> "";
+        };
+        resultNotificationController.getInformText().setText(inform);
+        resultNotificationController.getYourTimeText().setText((elapsedTime));
+        resultNotificationController.getBestScoreText().setText(bestRecord);
     }
 
     public int getBestRecord() {

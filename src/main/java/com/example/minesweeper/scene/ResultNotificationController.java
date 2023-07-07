@@ -5,12 +5,13 @@ import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class NotificationController {
-
+public class ResultNotificationController {
     @FXML
-    public Text yourTimeText;
+    private Text informText;
     @FXML
-    public Text bestScoreText;
+    private Text yourTimeText;
+    @FXML
+    private Text bestScoreText;
     private GameModel gameModel;
 
     @FXML
@@ -59,6 +60,10 @@ public class NotificationController {
 
     public Text getBestScoreText() {
         return bestScoreText;
+    }
+
+    public Text getInformText() {
+        return informText;
     }
 }
 
