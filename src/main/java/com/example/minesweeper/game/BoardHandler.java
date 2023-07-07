@@ -45,14 +45,12 @@ public class BoardHandler {
                 currentTile.getImageView().setOnMouseReleased(mouseEvent -> {
                     if (!mouseEvent.isPrimaryButtonDown() && !mouseEvent.isSecondaryButtonDown()) {
                         if (wereBothButtonsPressed) {
-
+                            processUserClickOn(currentTile);
                         } else if (mouseEvent.getButton() == MouseButton.PRIMARY) {
                             if (isWaitingFirstTileClicked) {
-                                isWaitingFirstTileClicked = false;
-                                generateMinesInTileField(currentTile);
-                                gameModel.getTimeCounter().start();
+                                generateMinesFromFirstClickOn(currentTile);
                             }
-                            handleUserGuessOn(currentTile);
+                            processUserClickOn(currentTile);
                         } else if (mouseEvent.getButton() == MouseButton.SECONDARY) {
                             handleFlag(currentTile);
                             gameModel.getGameController().getRemainingMinesText().setText(
@@ -62,6 +60,12 @@ public class BoardHandler {
                 });
             }
         }
+    }
+
+    private void generateMinesFromFirstClickOn(Tile currentTile) {
+        isWaitingFirstTileClicked = false;
+        generateMinesInTileField(currentTile);
+        gameModel.getTimeCounter().start();
     }
 
     private void generateMinesInTileField(Tile firstClickedTile) {
@@ -120,14 +124,14 @@ public class BoardHandler {
         tile.setTileState(TileState.tileStates[tile.getNeighbourMinesCount()]);
     }
 
-    public void handleUserGuessOn(Tile tile) {
+    public void processUserClickOn(Tile tile) {
         countTilesExposedInAGuess = 0;
-        if (tile.isNotFlagged()) {
-            if (tile.isNotExposed()) {
-                doSingleGuess(tile);
-            } else {
+        if (wereBothButtonsPressed) {
+            if (!tile.isNotExposed()) {
                 doMultiGuess(tile);
             }
+        } else if (tile.isNotFlagged() && tile.isNotExposed()) {
+            doSingleGuess(tile);
         }
         if (countTilesExposedInAGuess != 0) {
             if (countTilesExposedInAGuess == 1) {
