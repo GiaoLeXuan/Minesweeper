@@ -186,18 +186,18 @@ public class BoardHandler {
                 currentTile.decreaseNeighbourFlagsCount();
             }
             remainingMines++;
+            AudioManager.playAudioClip(Audio.UNFLAG);
         } else if (tile.getTileState() == TileState.BLANK) {
             tile.setTileState(TileState.FLAG);
             for (Tile currentTile : getAdjacentTilesOf(tile)) {
                 currentTile.increaseNeighbourFlagsCount();
             }
             remainingMines--;
+            AudioManager.playAudioClip(Audio.FLAG);
         }
     }
 
     public int getRemainingMines() {
         return remainingMines;
     }
-
-
 }

@@ -18,6 +18,8 @@ public abstract class GameModel {
     private final TimeCounter timeCounter;
     private final RecordHandler recordHandler;
 
+    private GameState gameState = GameState.RUNNING;
+
     public GameModel(GameController gameController, int rows, int columns, int numberOfMines, String recordFileName) {
         this.gameController = gameController;
         this.rows = rows;
@@ -55,19 +57,24 @@ public abstract class GameModel {
     }
 
     public void setGameState(GameState gameState) {
+        this.gameState = gameState;
         setFaceImageCorrespondingTo(gameState);
         if (gameState != GameState.RUNNING) {
-            Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-                disableEventToGameplay();
-            }), new KeyFrame(Duration.seconds(2.0), e -> {
-                if (gameState == GameState.WON) {
-                    handleWonState();
-                } else {
-                    handleLoseState();
-                }
-            }));
+            Timeline timeline = new Timeline(
+                    new KeyFrame(Duration.ZERO, e -> disableEventToGameplay()),
+                    new KeyFrame(Duration.seconds(2.0), e -> {
+                        if (gameState == GameState.WON) {
+                            updateRecords();
+                        }
+                        displayNotification();
+                    }));
             timeline.playFromStart();
         }
+    }
+
+    private void setFaceImageCorrespondingTo(GameState gameState) {
+        getGameController().getRestartButton().setGraphic(new ImageView(
+                RestartButton.getInstance().getFaceImageMap().get(gameState)));
     }
 
     private void disableEventToGameplay() {
@@ -76,25 +83,26 @@ public abstract class GameModel {
         gameController.getRestartButton().setDisable(true);
     }
 
-    private void handleWonState() {
+    private void updateRecords() {
         recordHandler.updateRecords(timeCounter.getElapsedTime());
-        displayWinNotification();
     }
 
-    private void handleLoseState() {
-        SceneManager.switchScene("lose.fxml");
-        LoseNotificationController loseNotificationController = SceneManager.getFxmlLoader().getController();
-        loseNotificationController.setGameModel(this);
-    }
-
-    private void displayWinNotification() {
-        SceneManager.switchScene("win.fxml");
-        WinNotificationController winNotificationController = SceneManager.getFxmlLoader().getController();
-        winNotificationController.setGameModel(this);
-        winNotificationController.getYourTimeText().setText(
-                String.valueOf(timeCounter.getElapsedTime()));
-        winNotificationController.getBestScoreText().setText(
-                String.valueOf(getBestRecord()));
+    private void displayNotification() {
+        SceneManager.switchScene("notify_result.fxml");
+        WinNotificationController notificationController = SceneManager.getFxmlLoader().getController();
+        notificationController.setGameModel(this);
+        String elapsedTime = switch (gameState) {
+            case WON -> String.valueOf(timeCounter.getElapsedTime());
+            case LOST -> "__";
+            default -> "0";
+        };
+        String bestRecord = switch (gameState) {
+            case WON -> String.valueOf(getBestRecord());
+            case LOST -> "__";
+            default -> "0";
+        };
+        notificationController.getYourTimeText().setText((elapsedTime));
+        notificationController.getBestScoreText().setText(bestRecord);
     }
 
     public int getBestRecord() {
@@ -104,11 +112,6 @@ public abstract class GameModel {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private void setFaceImageCorrespondingTo(GameState gameState) {
-        getGameController().getRestartButton().setGraphic(new ImageView(
-                RestartButton.getInstance().getFaceImageMap().get(gameState)));
     }
 
     public TimeCounter getTimeCounter() {

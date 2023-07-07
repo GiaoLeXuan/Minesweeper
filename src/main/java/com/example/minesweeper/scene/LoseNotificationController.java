@@ -2,21 +2,14 @@ package com.example.minesweeper.scene;
 
 import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
 import javafx.fxml.FXML;
-import javafx.util.Duration;
 
 public class LoseNotificationController {
     private GameModel gameModel;
 
     @FXML
     public void initialize() {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.ZERO, e -> {
-            AudioManager.playAudioClip(Audio.LOSE_MUSIC);
-        }), new KeyFrame(Duration.seconds(3.0),
-                e -> AudioManager.continueMediaPlayer()));
-        timeline.playFromStart();
+        AudioManager.playAudio(Audio.END_GAME_MUSIC);
     }
 
     public void setGameModel(GameModel gameModel) {
@@ -25,21 +18,31 @@ public class LoseNotificationController {
 
     public void backToMenu() {
         SceneManager.switchScene("start-menu.fxml");
+        AudioManager.playAudio(Audio.MAIN_THEME);
     }
 
     public void restartGame() {
-        GameController gameController = gameModel.getGameController();
-
-        if (gameController instanceof EasyGameController) {
+        if (gameModel instanceof EasyGameModel) {
             SceneManager.switchScene("easy-mode.fxml");
         }
-
-        if (gameController instanceof MediumGameController) {
+        if (gameModel instanceof MediumGameModel) {
             SceneManager.switchScene("medium-mode.fxml");
         }
-
-        if (gameController instanceof HardGameController) {
+        if (gameModel instanceof HardGameModel) {
             SceneManager.switchScene("hard-mode.fxml");
+        }
+        AudioManager.playAudio(Audio.MAIN_THEME);
+    }
+    public void viewRecord() {
+        if (gameModel != null) {
+            switch (gameModel.getColumns()) {
+                case EasyGameModel.COLUMNS ->
+                        SceneManager.switchScene("easy-high-score.fxml");
+                case MediumGameModel.COLUMNS ->
+                        SceneManager.switchScene("medium-high-score.fxml");
+                case HardGameModel.COLUMNS ->
+                        SceneManager.switchScene("hard-high-score.fxml");
+            }
         }
     }
 }

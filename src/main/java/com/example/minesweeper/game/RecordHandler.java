@@ -7,7 +7,6 @@ import java.util.List;
 
 public class RecordHandler {
 
-
     private final String recordFileName;
 
     public RecordHandler(String recordFileName) {
