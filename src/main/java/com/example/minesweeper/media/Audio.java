@@ -4,7 +4,7 @@ import com.example.minesweeper.MinesweeperApplication;
 
 public enum Audio {
 
-    MAIN_THEME("on_and_on.mp3"),
+    MAIN_THEME("feeling-happy.mp3"),
     EXPLODE_SOUND("small-explode-blast.wav"),
     WINNING_SHORT_INFORM("winning_short_inform.wav"),
     FLAG("clothes-drop.wav"),

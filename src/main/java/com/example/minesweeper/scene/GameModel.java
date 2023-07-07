@@ -1,6 +1,7 @@
 package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.*;
+import com.example.minesweeper.media.AudioManager;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.image.ImageView;
@@ -60,6 +61,7 @@ public abstract class GameModel {
         this.gameState = gameState;
         setFaceImageCorrespondingTo(gameState);
         if (gameState != GameState.RUNNING) {
+            AudioManager.pauseMediaPlayer();
             Timeline timeline = new Timeline(
                     new KeyFrame(Duration.ZERO, e -> disableEventToGameplay()),
                     new KeyFrame(Duration.seconds(2.0), e -> {
@@ -89,7 +91,7 @@ public abstract class GameModel {
 
     private void displayNotification() {
         SceneManager.switchScene("notify_result.fxml");
-        WinNotificationController notificationController = SceneManager.getFxmlLoader().getController();
+        NotificationController notificationController = SceneManager.getFxmlLoader().getController();
         notificationController.setGameModel(this);
         String elapsedTime = switch (gameState) {
             case WON -> String.valueOf(timeCounter.getElapsedTime());

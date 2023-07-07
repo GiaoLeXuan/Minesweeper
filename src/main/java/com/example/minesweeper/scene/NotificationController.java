@@ -5,7 +5,7 @@ import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.text.Text;
 
-public class WinNotificationController {
+public class NotificationController {
 
     @FXML
     public Text yourTimeText;
@@ -24,6 +24,7 @@ public class WinNotificationController {
 
     public void backToMenu() {
         SceneManager.switchScene("start-menu.fxml");
+        AudioManager.playAudio(Audio.MAIN_THEME);
     }
 
     public void restartGame() {
