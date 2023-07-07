@@ -21,7 +21,7 @@
         <MenuBar>
             <Menu mnemonicParsing="false" text="Game">
                 <MenuItem mnemonicParsing="false" onAction="#helpOnClicked" text="Help" />
-                <MenuItem mnemonicParsing="false" onAction="#backToStartMenu" text="Return" />
+                <MenuItem mnemonicParsing="false" onAction="#backToStartMenu" text="Start Menu" />
             </Menu>
             <Menu fx:id="soundMenu" mnemonicParsing="false" text="Sound">
                 <RadioMenuItem fx:id="soundOnMenuItem" mnemonicParsing="false" onAction="#turnAudioOn" text="On">
@@ -33,18 +33,18 @@
             </Menu>
         </MenuBar>
         <HBox alignment="CENTER">
-         <HBox prefHeight="30.0" prefWidth="43.0">
+         <HBox prefHeight="30.0">
             <children>
-               <ImageView pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@images/flag_icon.png" />
-                  </image>
-               </ImageView>
-               <Text fx:id="remainingMinesText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="30.0">
+               <Text fx:id="remainingMinesText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="40.0">
                   <font>
                      <Font name="System Bold" size="22.0" />
                   </font>
                </Text>
+               <ImageView fitHeight="30.0" fitWidth="39.0" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/flag_icon.png" />
+                  </image>
+               </ImageView>
             </children>
          </HBox>
          <Region prefHeight="30.0" prefWidth="10.0" />
@@ -57,7 +57,7 @@
                      <Image url="@images/timer.png" />
                   </image>
                </ImageView>
-                  <Text fx:id="timeCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="30.0">
+                  <Text fx:id="timeCounterText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="40.0">
                   <font>
                      <Font name="System Bold" size="22.0" />
                   </font>
