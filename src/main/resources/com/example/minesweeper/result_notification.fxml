@@ -12,28 +12,28 @@
 <?import javafx.scene.text.Text?>
 
 <AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.scene.ResultNotificationController">
-   <ImageView fitHeight="184.0" fitWidth="325.0" layoutX="-20.0" pickOnBounds="true" preserveRatio="true">
+   <ImageView fitHeight="184.0" fitWidth="333.0" layoutX="-21.0" pickOnBounds="true" preserveRatio="true">
       <image>
-         <Image url="@start_menu_images/start_menu_background.jfif" />
+         <Image url="@images/result-background.png" />
       </image>
    </ImageView>
    <VBox>
       <children>
-         <Text fx:id="informText" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="305.0">
+         <Text fx:id="informText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="305.0">
             <font>
-               <Font name="Times New Roman" size="20.0" />
+               <Font name="Times New Roman Bold" size="20.0" />
             </font>
          </Text>
          <HBox>
             <children>
                <VBox prefHeight="40.0" prefWidth="150.0">
                   <children>
-                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="150.0" text="Your time" textAlignment="JUSTIFY">
+                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="150.0" text="Your time" textAlignment="JUSTIFY" textFill="WHITE">
                         <font>
                            <Font name="Times New Roman Bold" size="16.0" />
                         </font>
                      </Label>
-                     <Text fx:id="yourTimeText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
+                     <Text fx:id="yourTimeText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
                         <font>
                            <Font name="Book Antiqua Bold" size="30.0" />
                         </font>
@@ -42,12 +42,12 @@
                </VBox>
                <VBox prefHeight="78.0" prefWidth="154.0">
                   <children>
-                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="158.0" text="Best" textAlignment="JUSTIFY">
+                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="148.0" text="Best" textAlignment="CENTER" textFill="WHITE">
                         <font>
                            <Font name="Times New Roman Bold" size="16.0" />
                         </font>
                      </Label>
-                     <Text fx:id="bestScoreText" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
+                     <Text fx:id="bestScoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
                         <font>
                            <Font name="Book Antiqua Bold" size="30.0" />
                         </font>
@@ -64,7 +64,7 @@
                      <Font name="Baskerville Old Face" size="14.0" />
                   </font>
                   <graphic>
-                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView pickOnBounds="true" preserveRatio="true">
                         <image>
                            <Image url="@images/home_icon.png" />
                         </image>
@@ -72,12 +72,12 @@
                   </graphic>
                </Button>
                <Region prefHeight="100.0" prefWidth="200.0" />
-               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#restartGame">
+               <Button contentDisplay="GRAPHIC_ONLY" mnemonicParsing="false" onAction="#restartGame" prefHeight="40.0" prefWidth="40.0">
                   <font>
                      <Font name="Baskerville Old Face" size="16.0" />
                   </font>
                   <graphic>
-                     <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                     <ImageView fitHeight="40.0" fitWidth="148.0" pickOnBounds="true" preserveRatio="true">
                         <image>
                            <Image url="@images/restart_icon.png" />
                         </image>
