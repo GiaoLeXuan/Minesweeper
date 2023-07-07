@@ -33,11 +33,12 @@ public class AudioManager {
         Media media = new Media(audio.getFileResource());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.setAutoPlay(true);
+        if (mute) {
+            mediaPlayer.setVolume(0);
+        }
         mediaPlayer.setOnEndOfMedia(() -> {
             mediaPlayer.seek(Duration.ZERO);
-            if (!mute) {
-                mediaPlayer.play();
-            }
+            mediaPlayer.play();
         });
     }
 
