@@ -1,6 +1,7 @@
 package com.example.minesweeper.scene;
 
 import com.example.minesweeper.game.RecordFile;
+import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
 import com.example.minesweeper.media.ImageHandler;
 import javafx.fxml.FXML;
@@ -18,6 +19,7 @@ public class StartMenuController {
 
     @FXML
     public void initialize() {
+        AudioManager.playAudio(Audio.MAIN_THEME);
         initializeSoundButtonGraphic();
         initializeRecordFiles();
     }

@@ -17,7 +17,6 @@ public class MinesweeperApplication extends Application {
     }
     @Override
     public void start(Stage stage) {
-        AudioManager.playAudio(Audio.MAIN_THEME);
         Configuration.loadConfiguration();
         SceneManager.setPrimaryStage(stage);
         SceneManager.switchScene("start-menu.fxml");

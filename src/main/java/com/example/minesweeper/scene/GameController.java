@@ -1,5 +1,6 @@
 package com.example.minesweeper.scene;
 
+import com.example.minesweeper.media.Audio;
 import com.example.minesweeper.media.AudioManager;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
