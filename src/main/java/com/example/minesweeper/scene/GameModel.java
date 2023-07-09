@@ -100,11 +100,11 @@ public abstract class GameModel {
         };
         String bestRecord = switch (gameState) {
             case WON -> String.valueOf(getBestRecord());
-            case LOST -> "__";
+            case LOST -> String.valueOf(getBestRecord());
             default -> "0";
         };
         String inform = switch (gameState) {
-            case WON -> "Congratulation! You Won!";
+            case WON -> "Congrats! You won!";
             case LOST -> "Oops! You hit a mine!";
             default -> "";
         };

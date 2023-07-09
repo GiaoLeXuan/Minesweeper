@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.minesweeper.scene.ResultNotificationController">
+   <ImageView fitHeight="172.0" fitWidth="305.0" layoutX="1.0" pickOnBounds="true" preserveRatio="true">
+      <image>
+         <Image url="@images/result-background.png" />
+      </image>
+   </ImageView>
+   <VBox>
+      <children>
+         <Text fx:id="informText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="305.0">
+            <font>
+               <Font name="Book Antiqua Bold" size="20.0" />
+            </font>
+         </Text>
+         <HBox>
+            <children>
+               <VBox prefHeight="40.0" prefWidth="150.0">
+                  <children>
+                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="150.0" text="Your time" textAlignment="JUSTIFY" textFill="WHITE">
+                        <font>
+                           <Font name="Book Antiqua Bold" size="16.0" />
+                        </font>
+                     </Label>
+                     <Text fx:id="yourTimeText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
+                        <font>
+                           <Font name="Book Antiqua Bold" size="30.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </VBox>
+               <VBox prefHeight="78.0" prefWidth="154.0">
+                  <children>
+                     <Label alignment="CENTER" prefHeight="40.0" prefWidth="148.0" text="Best" textAlignment="CENTER" textFill="WHITE">
+                        <font>
+                           <Font name="Book Antiqua Bold" size="16.0" />
+                        </font>
+                     </Label>
+                     <Text fx:id="bestScoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
+                        <font>
+                           <Font name="Book Antiqua Bold" size="30.0" />
+                        </font>
+                     </Text>
+                  </children>
+               </VBox>
+            </children>
+         </HBox>
+         <Region prefHeight="30.0" prefWidth="300.0" />
+         <HBox>
+            <children>
+               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#backToMenu" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/home_icon.png" />
+                  </image>
+               </ImageView>
+               <Region prefHeight="40.0" prefWidth="96.0" />
+               <ImageView fitHeight="40.0" fitWidth="56.0" onMouseClicked="#restartGame" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/restart_icon.png" />
+                  </image>
+               </ImageView>
+               <Region prefHeight="40.0" prefWidth="89.0" />
+               <ImageView fitHeight="40.0" fitWidth="40.0" onMouseClicked="#viewRecord" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                     <Image url="@images/record_icon.png" />
+                  </image>
+               </ImageView>
+            </children>
+         </HBox>
+      </children>
+   </VBox>
+</AnchorPane>
