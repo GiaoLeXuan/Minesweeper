@@ -20,7 +20,7 @@
       <children>
          <Text fx:id="informText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="CENTER" wrappingWidth="305.0">
             <font>
-               <Font name="Times New Roman Bold" size="20.0" />
+               <Font name="Book Antiqua Bold" size="20.0" />
             </font>
          </Text>
          <HBox>
@@ -29,7 +29,7 @@
                   <children>
                      <Label alignment="CENTER" prefHeight="40.0" prefWidth="150.0" text="Your time" textAlignment="JUSTIFY" textFill="WHITE">
                         <font>
-                           <Font name="Times New Roman Bold" size="16.0" />
+                           <Font name="Book Antiqua Bold" size="16.0" />
                         </font>
                      </Label>
                      <Text fx:id="yourTimeText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
@@ -43,7 +43,7 @@
                   <children>
                      <Label alignment="CENTER" prefHeight="40.0" prefWidth="148.0" text="Best" textAlignment="CENTER" textFill="WHITE">
                         <font>
-                           <Font name="Times New Roman Bold" size="16.0" />
+                           <Font name="Book Antiqua Bold" size="16.0" />
                         </font>
                      </Label>
                      <Text fx:id="bestScoreText" fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="0" textAlignment="CENTER" wrappingWidth="150.0">
